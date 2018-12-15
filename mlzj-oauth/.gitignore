@@ -1,0 +1,10 @@
+.svn
+*.iml
+.idea
+target
+.project
+.settings
+.classpath
+.gitignore_global
+.DS_Store
+rebel.xml
