@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 /**
  * @author yhl
  * @date 2018/12/11
+ * EnableGlobalMethodSecurity 方法级别权限校验
  * */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity

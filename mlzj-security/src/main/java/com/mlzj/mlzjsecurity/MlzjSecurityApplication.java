@@ -1,6 +1,6 @@
 package com.mlzj.mlzjsecurity;
 
-import com.mlzj.mlzjsecurity.dao.jpacommon.CommonRepositoryFactoryBean;
+import com.mlzj.jpa.common.CommonRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

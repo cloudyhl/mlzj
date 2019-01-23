@@ -3,6 +3,10 @@ package com.mlzj.mlzjoauth;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author yhl
+ * @date 2018/12/15
+ */
 @SpringBootApplication
 public class MlzjOauthApplication {
 

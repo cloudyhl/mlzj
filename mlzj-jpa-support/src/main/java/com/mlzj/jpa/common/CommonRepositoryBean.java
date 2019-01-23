@@ -1,4 +1,4 @@
-package com.mlzj.mlzjsecurity.dao.jpacommon;
+package com.mlzj.jpa.common;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
