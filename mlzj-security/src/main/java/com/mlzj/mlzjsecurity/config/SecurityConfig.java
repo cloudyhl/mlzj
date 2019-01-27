@@ -31,8 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                // 其他地址的访问均需验证权限
-                .anyRequest().authenticated()
+                .antMatchers("/api/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/user/login").permitAll()

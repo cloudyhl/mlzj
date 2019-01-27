@@ -1,4 +1,4 @@
-package com.mlzj.mlzjsecurity.entity;
+package com.mlzj.mlzjoauth.entity;
 
 import java.util.Map;
 

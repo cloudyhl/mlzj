@@ -1,4 +1,4 @@
-package com.mlzj.mlzjsecurity.entity;
+package com.mlzj.mlzjoauth.entity;
 
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;

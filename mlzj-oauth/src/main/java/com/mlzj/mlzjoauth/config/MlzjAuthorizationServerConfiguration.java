@@ -9,9 +9,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yhl
@@ -43,16 +45,33 @@ public class MlzjAuthorizationServerConfiguration extends AuthorizationServerCon
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints)  {
         endpoints
                 .tokenStore(new RedisTokenStore(redisConnectionFactory))
                 .authenticationManager(authenticationManager);
+        //配置TokenService参数
+        DefaultTokenServices tokenService = new DefaultTokenServices();
+        tokenService.setTokenStore(endpoints.getTokenStore());
+        tokenService.setSupportRefreshToken(true);
+        tokenService.setClientDetailsService(endpoints.getClientDetailsService());
+        tokenService.setTokenEnhancer(endpoints.getTokenEnhancer());
+        //30天
+        tokenService.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30));
+        //50天
+        tokenService.setRefreshTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(50));
+        tokenService.setReuseRefreshToken(true);
+        endpoints.tokenServices(tokenService);
     }
 
+
+
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         //允许表单认证
-        oauthServer.allowFormAuthenticationForClients();
+        //这里增加拦截器到安全认证链中，实现自定义认证，包括图片验证，短信验证，微信小程序，第三方系统，CAS单点登录
+        oauthServer.allowFormAuthenticationForClients()
+                   .tokenKeyAccess("permitAll()")
+                   .checkTokenAccess("permitAll()");
     }
 
 }

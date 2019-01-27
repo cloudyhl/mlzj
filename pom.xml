@@ -19,11 +19,14 @@
         <module>mlzj-security</module>
         <module>mlzj-oauth</module>
         <module>mlzj-jpa-support</module>
+        <module>mlzj-mybatis-support</module>
+        <module>mlzj-common-support</module>
     </modules>
 
 
     <properties>
         <java.version>1.8</java.version>
+        <mysql-connector-java>5.1.44</mysql-connector-java>
     </properties>
 
     <dependencies>
@@ -58,24 +61,17 @@
              <groupId>org.springframework.boot</groupId>
              <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.8.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.40</version>
-        </dependency>
-
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
