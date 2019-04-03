@@ -1,6 +1,7 @@
-package com.mlzj.rocketmq.producer;
+package com.mlzj.rocketmq.demo;
 
 import com.mlzj.rocketmq.annotation.MlzjRocketMqProducer;
+import com.mlzj.rocketmq.producer.AbstractMlzjConcurrentProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.Message;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class MyConcurrentProducer extends AbstractMlzjConcurrentProducer {
-    @Override
+
     public void pushMessage(String message) {
         try {
-            Message msg = new Message(this.topic,this.tags,message.getBytes());
+            Message msg = createSimpleMessage(message);
             getMqProducer().send(msg);
         } catch (Exception e){
             log.error("发送消息失败:{}",e);

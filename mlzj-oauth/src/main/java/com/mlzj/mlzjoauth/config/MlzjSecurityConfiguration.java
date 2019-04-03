@@ -17,13 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class MlzjSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user_1").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER")
-                .and()
-                .withUser("user_2").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER");
-    }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -34,6 +28,19 @@ public class MlzjSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
 
     }
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user_1").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER")
+                .and()
+                .withUser("user_2").password(new BCryptPasswordEncoder().encode("123456")).authorities("USER");
+    }
+
+
+
+
 
 
     @Override

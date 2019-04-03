@@ -17,10 +17,11 @@ import java.util.Objects;
 public class SysUserDetailServiceImpl implements UserDetailsService {
     @Resource
     private UserService userService;
+
     @Override
     public UserDetails loadUserByUsername(String userName) {
         SysUser sysUser = userService.getUserByName(userName);
-        if (!Objects.isNull(sysUser)){
+        if (!Objects.isNull(sysUser)) {
             return sysUser;
         }
         return null;

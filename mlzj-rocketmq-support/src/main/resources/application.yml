@@ -1,0 +1,5 @@
+
+mlzj:
+  rocketmq:
+    nameServerAddress: 47.94.162.134:9876
+    applicationGroup: WeiXin

@@ -1,6 +1,1 @@
-#server:
-#  servlet:
-#    context-path: /auth
-#    session:
-#      cookie:
-#        name: RESOURCE_SESSIONID
+

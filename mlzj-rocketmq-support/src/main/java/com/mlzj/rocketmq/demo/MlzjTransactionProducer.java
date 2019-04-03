@@ -1,6 +1,5 @@
-package com.mlzj.rocketmq.producer;
+package com.mlzj.rocketmq.demo;
 
-import com.mlzj.rocketmq.listener.MlzjTransactionListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.apache.rocketmq.client.producer.TransactionSendResult;

@@ -1,4 +1,4 @@
-package cn.wine.micropos.model.user;
+package com.mlzj.mybatis.model.authority;
 
 import java.util.Map;
 
@@ -13,5 +13,5 @@ public interface UserAuthority {
      * 获取用户的权限，用于生成sql
      * @return 返回用户的权限对，key为数据库表的column，value为该列的值
      */
-    Map<String,String> getAuthority();
+    Map<String,Object> getAuthority();
 }

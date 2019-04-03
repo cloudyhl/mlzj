@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * 资源服务器
+ *
  * @author yhl
  * @date 2019/1/18
  */
@@ -35,6 +36,7 @@ public class MlzjResourceServer extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources.resourceId(DEMO_RESOURCE_ID).stateless(true);
     }
+
     @Bean
     public ResourceServerTokenServices tokenService() {
         RemoteTokenServices tokenServices = new RemoteTokenServices();
@@ -45,20 +47,15 @@ public class MlzjResourceServer extends ResourceServerConfigurerAdapter {
         tokenServices.setAccessTokenConverter(accessTokenConverter());
         return tokenServices;
     }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http
-                // Since we want the protected resources to be accessible in the UI as well we need
-                // session creation to be allowed (it's disabled by default in 2.0.6)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .and()
-                .requestMatchers().antMatchers("/api/**")
-                .and()
-                .anonymous()
-                .and()
-                .authorizeRequests()
-                .anyRequest().authenticated();
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            .and()
+            .requestMatchers().antMatchers("/api/**").and()
+            .authorizeRequests()
+            .anyRequest().authenticated();
     }
 
     @Bean
@@ -68,7 +65,7 @@ public class MlzjResourceServer extends ResourceServerConfigurerAdapter {
         List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(new MediaType("application", "json", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET));
-        mediaTypes.add(new MediaType("text", "javascript",MappingJackson2HttpMessageConverter.DEFAULT_CHARSET));
+        mediaTypes.add(new MediaType("text", "javascript", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET));
         for (HttpMessageConverter<?> converter : converters) {
             if (converter instanceof MappingJackson2HttpMessageConverter) {
                 MappingJackson2HttpMessageConverter jsonConverter = (MappingJackson2HttpMessageConverter) converter;

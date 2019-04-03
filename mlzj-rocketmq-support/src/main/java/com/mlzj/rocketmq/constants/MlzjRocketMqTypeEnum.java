@@ -10,13 +10,13 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum ProducerTypeEnum {
+public enum MlzjRocketMqTypeEnum {
     /**
      *
      */
     CONCURRENT("concurrent","默认并发消息发送"),
     ORDERLY("orderly","顺序"),
-    ;
+    TRANSACTION("transaction","事务");
 
     /**
      * 类型

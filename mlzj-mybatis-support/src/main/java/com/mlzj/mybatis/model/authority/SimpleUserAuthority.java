@@ -1,4 +1,4 @@
-package cn.wine.micropos.model.user;
+package com.mlzj.mybatis.model.authority;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,15 +14,15 @@ public class SimpleUserAuthority implements UserAuthority {
     /**
      * 权限的集合
      */
-    private Map<String, String> authority = new HashMap<>();
+    private Map<String, Object> authority = new HashMap<>();
 
 
     @Override
-    public Map<String, String> getAuthority() {
+    public Map<String, Object> getAuthority() {
         return this.authority;
     }
 
-    public void setAuthority(Map<String, String> authority) {
+    public void setAuthority(Map<String, Object> authority) {
         this.authority = authority;
     }
 }

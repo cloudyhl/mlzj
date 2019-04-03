@@ -14,6 +14,7 @@ import java.util.function.Function;
 @Data
 public class PageTransfer extends Page implements Serializable {
 
+    private static final long serialVersionUID = -7017865256062063623L;
     private Function function;
 
     public PageTransfer() {

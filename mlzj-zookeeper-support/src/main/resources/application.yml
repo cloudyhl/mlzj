@@ -1,0 +1,9 @@
+
+mlzj:
+  zookeeper:
+    zkUrl: 47.94.162.134:2181
+    connectionTimeoutMs: 2000
+    nameSpace: mlzj
+    retryTimeMs: 1000
+    maxRetries: 3
+    sessionTimeoutMs: 10000

@@ -1,16 +1,18 @@
-package com.mlzj.rocketmq.listener;
+package com.mlzj.rocketmq.demo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.springframework.stereotype.Component;
 
 /**
  * @author yhl
  * @date 2019/3/25
  */
 @Slf4j
+@Component
 public class MlzjTransactionListener implements TransactionListener {
     @Override
     public LocalTransactionState executeLocalTransaction(Message message, Object o) {
