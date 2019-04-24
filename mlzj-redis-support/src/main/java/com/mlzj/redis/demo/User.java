@@ -13,7 +13,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = 376921311595456693L;
     private String name;
     private int age;
-
     public User(String name, int age) {
         this.name = name;
         this.age = age;

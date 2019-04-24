@@ -17,6 +17,7 @@ import org.apache.curator.framework.recipes.barriers.DistributedBarrier;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
@@ -50,6 +51,7 @@ public class MlzjZookeeperSupportApplicationTests {
         InterProcessMutex interProcessMutex = zookeeperUtils.getInterProcessMutex("/lock");
         interProcessMutex.acquire();
         System.out.println(1);
+        interProcessMutex.release();
         Thread.sleep(1000000000);
     }
     /**
@@ -240,6 +242,18 @@ public class MlzjZookeeperSupportApplicationTests {
     }
     @Test
     public void deleteNode() throws Exception {
-        zookeeperUtils.getClient().delete().forPath("/lock");
+        zookeeperUtils.getClient().delete().forPath("/root/node");
+    }
+    @Test
+    public void createTempNode() throws Exception {
+        CuratorFramework client = zookeeperUtils.getClient();
+        client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath("/root/node");
+        Thread.sleep(100000);
+    }
+    @Test
+    public void createTempNode1() throws Exception {
+        CuratorFramework client = zookeeperUtils.getClient();
+        String s = client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath("/root/node");
+        Thread.sleep(100000);
     }
 }

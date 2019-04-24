@@ -1,0 +1,29 @@
+
+#consumerConfig providerConfig methodConfig 用来配置,消费，生产，方法级别的缺省值，方法级优先，接口级次之，全局配置再次之。如果级别一样，则消费方优先，提供方次之。
+
+dubbo:
+  registry:
+    address: zookeeper://47.94.162.134:2181 #注册zookeeper地址
+    time-out: 1000000 #注册超时时间
+  protocol:
+    name: dubbo #协议名称
+    port: 20880 #端口
+    thread-pool: fixed
+    threads: 20 #配置可同时执行的dubbo线程数
+    file: /output/dubbo.cache #dubbo 缓存文件
+    dubbo:
+      payload: 209715200
+    serialization: kryo
+    optimizer: com.mlzj.dubbo.interfaces.config.SerializationOptimizerImpl
+  application:
+    name: dubbo-provider
+  provider:
+    timeout: 10000 #提供服务的超时时间
+    executes: 10
+    token: true
+  consumer:
+    timeout: 10000 #消费服务的超时时间
+    check: false #设置启动时检查false依赖bean未启动服务忽略
+    retries: 0 #重试机制，重要机制若方法执行时间长且非幂等，会导致重试后多次执行代码
+    cache: lru # 结果缓存，除非保证查询结果万年不变，否则第一次调用后都会从缓存中拿值
+    actives: 10 #客户端并发执行（或占用连接的请求数）不能超过 10 个

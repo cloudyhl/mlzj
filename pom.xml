@@ -24,6 +24,8 @@
         <module>mlzj-rocketmq-support</module>
         <module>mlzj-redis-support</module>
         <module>mlzj-zookeeper-support</module>
+        <module>mlzj-dubbo</module>
+        <module>mlzj-kafka-support</module>
     </modules>
 
 
@@ -36,12 +38,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

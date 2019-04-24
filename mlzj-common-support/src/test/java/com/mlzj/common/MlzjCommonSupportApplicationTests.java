@@ -1,58 +1,84 @@
 package com.mlzj.common;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.*;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MlzjCommonSupportApplicationTests {
 
+    private static ReentrantLock reentrantLock = new ReentrantLock();
+    Condition condition = reentrantLock.newCondition();
+    Condition condition1 = reentrantLock.newCondition();
     @Test
     public void contextLoads() {
     }
+
+
     @Test
-    public void excelTest() throws IOException {
-        File file = new File("F://possql.xlsx");
-        FileInputStream fileInputStream = new FileInputStream(file);
-        Workbook sheets = WorkbookFactory.create(fileInputStream);
-        Sheet sheetAt = sheets.getSheetAt(0);
-        int lastRowNum = sheetAt.getLastRowNum();
-        for (short i = 0; i< lastRowNum; i++){
-            Row row = sheetAt.getRow(i);
-            short lastCellNum = row.getLastCellNum();
-            for (short j = 0; j < lastCellNum ; j++){
-                System.out.println( row.getCell(j).getStringCellValue());
+    public void concurrentBlockQueue(){
+        ConcurrentLinkedQueue<Integer> concurrentLinkedQueue = new ConcurrentLinkedQueue<>();
+        concurrentLinkedQueue.add(1);
+        concurrentLinkedQueue.add(2);
+        concurrentLinkedQueue.add(3);
+        concurrentLinkedQueue.add(4);
+        concurrentLinkedQueue.add(5);
+        System.out.println(concurrentLinkedQueue.peek());
+        System.out.println(concurrentLinkedQueue.poll());
+        System.out.println(concurrentLinkedQueue.contains(1));
+        System.out.println(concurrentLinkedQueue);
+        Thread.currentThread().setName(UUID.randomUUID().toString());
+        System.out.println(Thread.currentThread().getName());
+    }
+
+    class ThreadFactorys implements ThreadFactory{
+
+        @Override
+        public Thread newThread(Runnable r) {
+            new Thread(r,UUID.randomUUID().toString());
+            return null;
+        }
+    }
+
+    @Test
+    public void reentrantLock() throws InterruptedException {
+        method1();
+        method2();
+        TimeUnit.SECONDS.sleep(2);
+    }
+
+    private void method1(){
+        new Thread(()->{
+            reentrantLock.lock();
+            try {
+                System.out.println("method1 run");
+                condition.await();
+                System.out.println("method1 continue");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-        }
+        }).start();
     }
 
-    @Test
-    public void excelOut() throws IOException {
-        XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
-        XSSFSheet sheet1 = xssfWorkbook.createSheet("sheet1");
-        XSSFRow row = sheet1.createRow(0);
-        XSSFCell cell = row.createCell(0);
-        cell.setCellValue("门店");
-        XSSFCell cell1 = row.createCell(1);
-        cell1.setCellValue("门店编码");
-        for (int i = 1; i<5 ;i++){
-            XSSFRow row1 = sheet1.createRow(i);
-            row1.createCell(0).setCellValue("门店"+i);
-            row1.createCell(1).setCellValue("W00"+i);
-        }
-        FileOutputStream fileOutputStream = new FileOutputStream("F://mlzj.xlsx");
-        xssfWorkbook.write(fileOutputStream);
-        fileOutputStream.close();
+    private void method2(){
+        new Thread(()->{
+            reentrantLock.lock();
+            System.out.println("method2 run");
+            condition1.signal();
+            reentrantLock.unlock();
+        }).start();
     }
+
+
 }
 

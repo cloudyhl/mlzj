@@ -1,0 +1,27 @@
+dubbo:
+  registry:
+    address: zookeeper://47.94.162.134:2181
+    time-out: 1000000
+  protocol:
+    name: dubbo
+    port: 20881
+    thread-pool: fixed
+    threads: 20
+    dubbo:
+      payload: 209715200
+    serialization: kryo
+    optimizer: com.mlzj.dubbo.interfaces.config.SerializationOptimizerImpl
+  application:
+    name: dubbo-consumer
+  annotation:
+    package: com.mlzj.dubbo
+  provider:
+    timeout: 100000
+    token: true
+  consumer:
+    timeout: 100000
+    check: false
+  reference:
+    check: false
+server:
+  port: 8888

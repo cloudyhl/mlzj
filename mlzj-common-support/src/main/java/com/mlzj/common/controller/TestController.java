@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletOutputStream;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class TestController {
 
 
-    @RequestMapping("/createExcel")
+    @GetMapping("/createExcel")
     public void createExcel(HttpServletResponse httpResponse) throws IOException {
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
         XSSFSheet sheet1 = xssfWorkbook.createSheet("sheet1");
