@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mlzj.test.mysql.dao.UserDao">
+
+    <update id="updateUser">
+        update mlzj_user set address = #{address} where user_name = #{userName} and age = #{age}
+    </update>
+    <update id="updateBatch">
+        update mlzj_user
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="address = case " suffix="end,">
+                <foreach collection="users" item="item" index="index">
+                    when user_name=#{item.userName} and age = #{item.age} then #{item.address}
+                </foreach>
+            </trim>
+        </trim>
+        where user_name in
+        <foreach collection="users" index="index" item="item" separator="," open="(" close=")">
+            #{item.userName}
+        </foreach>
+        and age in
+        <foreach collection="users" index="index" item="item" separator="," open="(" close=")">
+            #{item.age}
+        </foreach>
+    </update>
+
+</mapper>

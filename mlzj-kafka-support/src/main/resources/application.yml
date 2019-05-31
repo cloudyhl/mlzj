@@ -2,9 +2,17 @@ spring:
   kafka:
     bootstrap-servers: 47.94.162.134:9092
     consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer #指定消息key和消息体的编解码方式
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer #指定消息key和消息体的编解码方式
       group-id: mlzj
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: latest #指消费使用的offset策略
+      enable-auto-commit: false #是否自动提交offset
+      auto-commit-interval:
+      max-poll-records: 2000
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 0
+      acks: 0 #0发过去就完事了，不关心broker是否处理成功，可能丢数据 1当写Leader成功后就返回,其他的replica都是通过fetcher去同步的,所以kafka是异步写，主备切换可能丢数据 -1要等到isr里所有机器同步成功，才能返回成功，延时取决于最慢的机器。强一致，不会丢数据。
+server:
+  port: 8080

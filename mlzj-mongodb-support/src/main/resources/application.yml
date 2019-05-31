@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      host: 47.94.162.134
+      port: 27017
+      database: mlzj
+#./mongod --dbpath=/root/mongodb/mongodb-linux-x86_64-4.0.9/data/db/ & 启动

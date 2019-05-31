@@ -12,11 +12,13 @@ import javax.annotation.Resource;
 @Component
 public class SimpleMessageSender {
 
+    private String topic = "mlzj-topic";
+
     @Resource
     private KafkaTemplate<String,String> kafkaTemplate;
 
 
-    public void sendMessage(){
-
+    public void sendMessage(String message){
+        kafkaTemplate.send(topic,message);
     }
 }

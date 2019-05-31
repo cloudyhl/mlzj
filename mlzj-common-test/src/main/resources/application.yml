@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mlzjtest?characterEncoding=utf8&readOnlyPropagatesToServer=false&rewriteBatchedStatements=true&useInformationSchema=false&useSSL=true
+    username: root
+    password: root
+    hikari:
+      maxLifetime: 1765000
+      maximumPoolSize: 60
+  data:
+    mongodb:
+      host: 47.94.162.134
+      port: 27017
+      database: mlzj
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto

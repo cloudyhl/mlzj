@@ -26,6 +26,7 @@
         <module>mlzj-zookeeper-support</module>
         <module>mlzj-dubbo</module>
         <module>mlzj-kafka-support</module>
+        <module>mlzj-mongodb-support</module>
     </modules>
 
 
