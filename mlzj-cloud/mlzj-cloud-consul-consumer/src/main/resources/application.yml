@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: mlzj-consul-consumer
+server:
+  port: 19002

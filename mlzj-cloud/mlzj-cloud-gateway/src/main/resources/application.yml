@@ -1,0 +1,5 @@
+server:
+  port: 20010
+spring:
+  application:
+    name: mlzj-gateway

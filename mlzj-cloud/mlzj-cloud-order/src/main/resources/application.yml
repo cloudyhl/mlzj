@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: mlzj-order
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+server:
+  port: 20001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 10 #实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 10 #每隔多少秒发送一次心跳信息
+ribbon:
+  connectTimeOut: 5000
+  readTimeOut: 2000
+  MaxAutoRetries: 1 #最大重试数
+  MaxAutoRetriesNextServer: 1 # 最大重试的机器数，不包括请求到的机器
+  eager-load:
+    enabled: true
+    clients: mlzj-client #开启ribbon饥饿加载,默认ribbon在调用时才会加载，改为启动加载，解决第一次调用可能会发生的超时
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: true #feign启用httpclient
+  compression:
+    request:
+      enabled: true # 请求响应的压缩开启
+    response:
+      enabled: true
+hystrix:
+  shareSecurityContext: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #hystrix 超时时间
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream #开放断路器被仪表盘监控

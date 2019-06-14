@@ -18,8 +18,12 @@ import javax.annotation.Resource;
 public class KafkaConfig {
 
     @Resource
-    private ConsumerFactory consumerFactory;
+    private ConsumerFactory<Integer,String> consumerFactory;
 
+    /**
+     * 开启批量消费
+     * @return 注入bean
+     */
     @Bean("batchMessageFactory")
     public KafkaListenerContainerFactory<?> batchFactory() {
         ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();

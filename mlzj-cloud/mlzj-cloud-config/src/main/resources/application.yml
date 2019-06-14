@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: mlzj-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/cloudyhl/mlzj-cloud-config-file
+          username: cloudyhl@163.com
+          password: 9173852456yhl
+          search-paths: config,config/mlzj*
+          #basedir: ./data/server/git_local_config 用于指定生成临时的缓存文件目录,linux会清除tmp下的文件定时
+    stream:
+      kafka:
+        binder:
+          brokers: 47.94.162.134:9092 # 配置消息总线
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 10 #实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 10 #每隔多少秒发送一次心跳信息
+server:
+  port: 20008
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #/bus-refresh 调用该接口刷新所有的配置
+#springcloud config 支持数据库mongodb等实现,但是个人认为git优于这两者,原因在于git支持版本管理,对于配置文件修改提交回滚等都有一定的保证
+#springcloud config 支持客户端与服务端的高可用,服务端只在eureka上注册服务,客户端则使用本地缓存文件,客户端方式可在本地维护配置文件，部署时使用配置中心,若server端挂掉需要重启client端可以使用本地配置文件

@@ -3,18 +3,35 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.mlzj</groupId>
-        <artifactId>mlzj</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>mlzj-cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mlzj-cloud</name>
+    <groupId>com.mlzj</groupId>
     <description>Demo project for Spring Boot</description>
-
+    <packaging>pom</packaging>
+    <modules>
+        <module>mlzj-cloud-eureka</module>
+        <module>mlzj-cloud-common</module>
+        <module>mlzj-cloud-order</module>
+        <module>mlzj-cloud-config</module>
+        <module>mlzj-cloud-client</module>
+        <module>mlzj-cloud-feign-support</module>
+        <module>mlzj-cloud-hystrix-dashboard</module>
+        <module>mlzj-cloud-zuul</module>
+        <module>mlzj-cloud-auth-server</module>
+        <module>mlzj-cloud-consul-provider</module>
+        <module>mlzj-cloud-consul-consumer</module>
+        <module>mlzj-cloud-gateway</module>
+    </modules>
     <properties>
         <java.version>1.8</java.version>
+        <spring-cloud.version>Finchley.SR3</spring-cloud.version>
+        <spring-open-feign.version>2.0.4.RELEASE</spring-open-feign.version>
     </properties>
 
     <dependencies>
@@ -28,15 +45,28 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-openfeign</artifactId>
+                <version>${spring-open-feign.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

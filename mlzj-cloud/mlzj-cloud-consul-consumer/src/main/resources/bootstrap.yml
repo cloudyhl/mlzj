@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      config:
+        enabled: true
+        format: yaml #文件格式
+        prefix: config #文件夹前缀,默认在config下
+        data-key: mlzj-consul #搜索的具体文件名称
+        watch:
+          delay: 1000 #监听配置更新的时间间隔
+      discovery:
+        enabled: true
+        instance-id: mlzj-consul-provider
+        prefer-ip-address: true
+        tags: mlzj-consul
+  profiles:
+    active: test

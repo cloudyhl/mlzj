@@ -1,0 +1,16 @@
+server:
+  port: 20007
+spring:
+  application:
+    name: mlzj-auth-server
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 120 #实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 120 #每隔多少秒发送一次心跳信息
+logging:
+  level:
+    root: debug

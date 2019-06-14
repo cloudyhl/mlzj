@@ -1,0 +1,21 @@
+server:
+  port: 8761
+spring:
+  security:
+    user:
+      name: mlzj
+      password: mlzj1234
+  application:
+    name: mlzj-eureka
+eureka:
+  instance:
+    hostname: mlzj:mlzj1234@localhost
+  server:
+    enableSelfPreservation: false #自我保护，接收到心跳低于默认0.85时将会保护这些实例，若关闭自我保护，则会剔除实例
+    registry-sync-retry-wait-ms: 0
+    renewal-percent-threshold: 0.45 #收到续约必须要达到该值
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

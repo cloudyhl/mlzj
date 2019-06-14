@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    config:
+      label: master
+      name: mlzj-client
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: mlzj-config
+      #uri: 指定configServer的地址
+    stream:
+      kafka:
+        binder:
+          brokers: 47.94.162.134:9092
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 10 #实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 10 #每隔多少秒发送一次心跳信息
+
+# 使用skyWallking 启动参数需要加入探针 -javaagent:E:\work\toolsProject\apache-skywalking-apm-6.1.0\apache-skywalking-apm-bin\agent\skywalking-agent.jar -Dskywalking.agent.service_name=mlzj-client -Dskywalking.collector.backend_service=localhost:11800

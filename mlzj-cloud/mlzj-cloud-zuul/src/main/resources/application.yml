@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: mlzj-zuul
+  servlet:
+    multipart:
+      max-file-size: 10MB #单个文件最大的长度
+      max-request-size: 10MB #最大请求文件的大小
+      fileSizeThreshold: 1MB #当上传文件大小大于该值进行磁盘写入
+      location: ./tmp/apps/ # 上传的临时目录
+server:
+  port: 20006
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 120 #实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 120 #每隔多少秒发送一次心跳信息
+zuul:
+  routes:
+    mlzj-order:
+      path: /mlzj-order/**
+      serviceId: mlzj-order
+    mlzj-client:
+      path: /mlzj-client/**
+      serviceId: mlzj-client #zuul 配置以/mlzj-client/开头的调用路由到 mlzj-client服务
+  ignored-patterns: /mlzj-order/orderApi/** #忽略某些接口
+  sensitive-headers: Cookie #配置会被过滤的敏感头信息
+  add-host-header: true #防止服务做转发暴露真实的服务地址
+  ribbon:
+    eager-load:
+      enabled: true #开启饥饿加载
+  ribbon-isolation-strategy: thread #使用线程隔离模式
+  thread-pool:
+    use-separate-thread-pools: true #使用单独的线程池
+    thread-pool-key-prefix: zuul # 线程前缀
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#security:
+#  oauth2:
+#    client:
+#      access-token-uri: http://localhost:20007/oauth/token #令牌端点
+#      user-authorization-uri: http://localhost:20007/oauth/authorize #授权端点
+#      client-id: mlzj-zuul #客户端id
+#      client-secret: mlzj-zuul #客户端秘钥
+#    resource:
+#      jwt:
+hystrix:
+  threadpool:
+    default:
+      coresize: 20
+      maximumsize: 50
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #hystrix 超时时间
+#        key-value: cloudyhl #加密key
