@@ -3,3 +3,29 @@ server:
 spring:
   application:
     name: mlzj-gateway
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: jd_route
+#        uri: http://jd.com:80/
+#        predicates: #用于断言判断,为true则转发
+#          - Path=/jd
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true #开启小写的服务名
+          enabled: true #是否开启基于服务的路由发现
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 10 #实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 10 #每隔多少秒发送一次心跳信息
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

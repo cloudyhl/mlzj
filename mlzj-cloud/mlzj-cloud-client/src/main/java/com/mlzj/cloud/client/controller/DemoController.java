@@ -34,7 +34,6 @@ public class DemoController {
 
     @GetMapping("/addUser")
     public String testFeign(HttpServletRequest request){
-        String prefix = request.getHeader("prefix");
         SimpleOrder simpleOrder = new SimpleOrder();
         simpleOrder.setAddress("四川");
         simpleOrder.setLogisticsBn("123213221");
@@ -57,5 +56,14 @@ public class DemoController {
     public String config(){
         System.out.println(message);
         return mlzjConfigProperties.getMessage();
+    }
+
+    @GetMapping
+    public String active(HttpServletRequest request){
+        String prefix = request.getHeader("prefix");
+        String username = request.getParameter("username");
+        System.out.println(username);
+        System.out.println(prefix);
+        return "active";
     }
 }
