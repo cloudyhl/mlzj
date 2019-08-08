@@ -15,7 +15,7 @@ spring:
       discovery:
         locator:
           lower-case-service-id: true #开启小写的服务名
-          enabled: true #是否开启基于服务的路由发现
+          enabled: false #是否开启基于服务的路由发现
 eureka:
   client:
     service-url:

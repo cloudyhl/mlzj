@@ -27,6 +27,10 @@
         <module>mlzj-cloud-consul-provider</module>
         <module>mlzj-cloud-consul-consumer</module>
         <module>mlzj-cloud-gateway</module>
+        <module>mlzj-cloud-admin</module>
+        <module>mlzj-cloud-auth-provider</module>
+        <module>mlzj-cloud-auth-gateway</module>
+        <module>mlzj-cloud-auth-common</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
@@ -42,6 +46,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.40</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

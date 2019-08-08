@@ -1,0 +1,45 @@
+server:
+  port: 20022
+spring:
+  application:
+    name: mlzj-zuth-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+  instance:
+    prefer-ip-address: true  #开启ip显示
+
+
+zuul:
+  routes:
+    mlzj-cloud-auth-provider:
+      path: /mlzj-cloud-auth-provider/**
+      serviceId: mlzj-cloud-auth-provider #zuul 配置以/mlzj-client/开头的调用路由到 mlzj-client服务
+  ribbon:
+    eager-load:
+      enabled: true #开启饥饿加载
+  ribbon-isolation-strategy: thread #使用线程隔离模式
+  thread-pool:
+    use-separate-thread-pools: true #使用单独的线程池
+    thread-pool-key-prefix: zuul # 线程前缀
+
+#security:
+#  oauth2:
+#    sso:
+#      login-path: http://localhost:20007/login
+#    resource:
+#      user-info-uri: http://localhost:20007/user
+#      prefer-token-info: false
+#    client:
+#      access-token-uri: http://localhost:20007/oauth/token #令牌端点
+#      user-authorization-uri: http://localhost:20007/oauth/authorize #授权端点
+#      client-id: mlzj-zuul  #OAuth2客户端ID
+#      client-secret: mlzj-zuul
+mlzj:
+  uaa:
+    security:
+      white-list: "/mlzj-cloud-auth-provider/api/**"
+logging:
+  level:
+    root: debug

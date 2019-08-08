@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.mlzj.cloud.client.common.MlzjConfigProperties;
 import com.mlzj.cloud.feign.model.order.SimpleOrder;
 import com.mlzj.cloud.feign.service.order.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @date 2019/6/2
  */
 @RestController
+@Slf4j
 @RefreshScope
 public class DemoController {
 
@@ -61,9 +63,10 @@ public class DemoController {
     @GetMapping
     public String active(HttpServletRequest request){
         String prefix = request.getHeader("prefix");
-        String username = request.getParameter("username");
-        System.out.println(username);
-        System.out.println(prefix);
+        String username = request.getParameter("ak");
+        log.info("time {}",request.getAttribute("countStartTime"));
+        log.info(prefix);
+        log.info(username);
         return "active";
     }
 }

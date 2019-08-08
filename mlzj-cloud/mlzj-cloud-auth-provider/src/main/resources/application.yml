@@ -1,0 +1,28 @@
+server:
+  port: 20021
+eureka:
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka#实例信息变更同步到eureka间隔时间
+  instance:
+    prefer-ip-address: true  #开启ip显示
+
+#security:
+#  oauth2:
+#    resource:
+#      ####从认证授权中心上验证token
+#      tokenInfoUri: http://localhost:20007/oauth/check_token
+#      preferTokenInfo: true
+#    client:   ## 获取accesstoken地址
+#      accessTokenUri: http://localhost:20007/oauth/token
+#      userAuthorizationUri: http://localhost:20007/oauth/authorize  ###授权地址
+#      ###appid
+#      clientId: mlzj-zuul
+#      ###appSecret
+#      clientSecret: mlzj-zuul
+spring:
+  application:
+    name: mlzj-cloud-auth-provider
+logging:
+  level:
+    root: info

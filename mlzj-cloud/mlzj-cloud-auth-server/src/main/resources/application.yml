@@ -3,14 +3,17 @@ server:
 spring:
   application:
     name: mlzj-auth-server
-eureka:
-  client:
-    service-url:
-      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
-    initial-instance-info-replication-interval-seconds: 120 #实例信息变更同步到eureka间隔时间
-  instance:
-    prefer-ip-address: true  #开启ip显示
-    lease-renewal-interval-in-seconds: 120 #每隔多少秒发送一次心跳信息
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  datasource:
+    url: jdbc:mysql://localhost:3306/mlzjcloudauth?characterEncoding=utf8&readOnlyPropagatesToServer=false&rewriteBatchedStatements=true&useInformationSchema=false&useSSL=true
+    username: root
+    password: root
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+
 logging:
   level:
     root: debug

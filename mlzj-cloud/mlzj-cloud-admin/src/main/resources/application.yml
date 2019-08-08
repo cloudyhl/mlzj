@@ -1,0 +1,35 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: spring-boot-admin
+  profiles:
+    active:
+    - secure
+  security:
+    user:
+      name: mlzj #登录账号
+      password: mlzj1234 #登录密码
+
+
+eureka:
+  instance:
+    prefer-ip-address: true  #开启ip显示
+    lease-renewal-interval-in-seconds: 10 #每隔多少秒发送一次心跳信息
+    metadata-map:
+      user.name: mlzj
+      user.password: mlzj1234
+  client:
+    service-url:
+      defaultZone: http://mlzj:mlzj1234@localhost:8761/eureka
+    initial-instance-info-replication-interval-seconds: 10 #实例信息变更同步到eureka间隔时间
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  #<2>
+  endpoint:
+    health:
+      show-details: ALWAYS

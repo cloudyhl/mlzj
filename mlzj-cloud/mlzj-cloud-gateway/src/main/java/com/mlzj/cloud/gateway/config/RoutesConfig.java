@@ -44,14 +44,27 @@ public class RoutesConfig {
      * @param builder builder
      * @return 路由分发器
      */
-
-    public RouteLocator locator(RouteLocatorBuilder builder){
+    @Bean(name = "mlzj-client")
+    public RouteLocator clientLocator(RouteLocatorBuilder builder){
         return builder.routes().route("mlzj-client",route ->
-          route.path("/mlzj-client/**").filters(gatewayFilterSpec -> gatewayFilterSpec.filter(new CustomGateWayFilter()))
-                .uri("http://localhost:20003/")
-        ).build();
+          //stripPrefix 去掉前缀,lb://serviceId 将请求转发到eureka上的这个服务
+          route.path("/mlzj-client/**").filters(gatewayFilterSpec -> gatewayFilterSpec.stripPrefix(1).filter(new CustomGateWayFilter()))
+                .uri("lb://MLZJ-CLIENT")
+        ).route("mlzj-order",route ->
+                //stripPrefix 去掉前缀
+        route.path("/mlzj-order/**").filters(gatewayFilterSpec -> gatewayFilterSpec.stripPrefix(1).filter(new CustomGateWayFilter()))
+        .uri("lb://MLZJ-ORDER")).build();
 
     }
+//    @Bean(name = "mlzj-order")
+//    public RouteLocator orderLocator(RouteLocatorBuilder builder){
+//        return builder.routes().route("mlzj-order",route ->
+//                //stripPrefix 去掉前缀
+//                route.path("/mlzj-order/**").filters(gatewayFilterSpec -> gatewayFilterSpec.stripPrefix(1).filter(new CustomGateWayFilter()))
+//                        .uri("lb://MLZJ-ORDER")
+//        ).build();
+//
+//    }
 
 
 }

@@ -20,7 +20,6 @@
         <module>mlzj-oauth</module>
         <module>mlzj-jpa-support</module>
         <module>mlzj-mybatis-support</module>
-        <module>mlzj-common-support</module>
         <module>mlzj-rocketmq-support</module>
         <module>mlzj-redis-support</module>
         <module>mlzj-zookeeper-support</module>

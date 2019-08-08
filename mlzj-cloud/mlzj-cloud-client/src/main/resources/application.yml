@@ -6,6 +6,10 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8090"
 server:
   port: 20003
 feign:
@@ -44,7 +48,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: hystrix.stream,refresh #开放断路器被仪表盘监控
+        include: '*'  #开放断路器被仪表盘监控 hystrix.stream,refresh
+  endpoint:
+    health:
+      show-details: ALWAYS
 #apollo:
 #  bootstrap:
 #    enable: true
