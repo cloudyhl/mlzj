@@ -1,6 +1,5 @@
 package com.mlzj.commontest;
 
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.mlzj.commontest.demo.DemoExecute;
 import com.mlzj.commontest.event.TestEvent;
 import com.mlzj.commontest.model.Order;
@@ -8,24 +7,27 @@ import com.mlzj.commontest.model.User;
 import com.mlzj.commontest.proxy.handler.CatProxyHandler;
 import com.mlzj.commontest.proxy.interfaces.Animal;
 import com.mlzj.commontest.proxy.interfaces.Dynamic;
-import com.mlzj.commontest.proxy.interfaces.DynamicInterface;
-import com.mlzj.commontest.proxy.interfaces.impl.SimpleDynamicImpl;
 import com.mlzj.commontest.proxy.model.Cat;
 import com.mlzj.commontest.service.OrderService;
 import com.mlzj.commontest.service.UserService;
 import com.mlzj.commontest.service.impl.DemoServiceImpl;
 import com.mlzj.commontest.utils.EventPublisher;
-import javafx.application.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -39,6 +41,9 @@ public class MlzjCommonTestApplicationTests {
 
     @Resource
     private EventPublisher eventPublisher;
+
+    @Resource
+    private ResourceLoader resourceLoader;
 
     @Resource
     private DemoServiceImpl service;
@@ -175,5 +180,18 @@ public class MlzjCommonTestApplicationTests {
         System.out.println(simpleDynamic.findSimpleCatByName("husen"));
         System.out.println( simpleDynamic.baseSelect());
         //System.out.println(dynamic);
+    }
+
+    @Test
+    public void classPathLoader() throws IOException {
+        String packageName = "com.mlzj.commontest.observe";
+        ResourcePatternResolver resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
+        MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
+        org.springframework.core.io.Resource[] resources = resourcePatternResolver.getResources("classpath*:".concat(packageName.replace(".", "/").concat("/**/*.class")));
+        for (org.springframework.core.io.Resource resource : resources){
+            MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
+            String className = metadataReader.getClassMetadata().getClassName();
+            System.out.println(className);
+        }
     }
 }
