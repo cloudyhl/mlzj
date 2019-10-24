@@ -172,7 +172,6 @@ public class MlzjCommonTestApplicationTests {
         Animal proxy = (Animal) catProxyHandler.getProxy(new Cat("1","1"));
         proxy.say();
     }
-
     @Test
     public void testCat(){
         String s = simpleDynamic.findSimpleCat();

@@ -1,15 +1,18 @@
 package com.mlzj.commontest;
 
-import com.mlzj.commontest.model.Dog;
-import com.mlzj.commontest.model.Mobile;
-import com.mlzj.commontest.model.User;
-import com.mlzj.commontest.model.UserInfo;
+import com.mlzj.commontest.demo.ArrayAggregate;
+import com.mlzj.commontest.demo.Iteration;
+import com.mlzj.commontest.demo.ListAggregate;
+import com.mlzj.commontest.demo.datastruct.MLzjLinkList;
+import com.mlzj.commontest.demo.datastruct.MlzjArrayList;
+import com.mlzj.commontest.demo.datastruct.MlzjStack;
+import com.mlzj.commontest.demo.datastruct.interfaces.MlzjList;
+import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.observe.*;
 import com.mlzj.commontest.utils.ClassTools;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -215,9 +218,9 @@ public class CommonTest {
             } else {
                 String className = file.getName().substring(0, file.getName().length() - 6);
                 try {
-                    Class<?> aClass = Thread.currentThread().getContextClassLoader().loadClass(packageName+"."+className);
+                    Class<?> aClass = Thread.currentThread().getContextClassLoader().loadClass(packageName + "." + className);
                     classes.add(aClass);
-                } catch (ClassNotFoundException e){
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
 
@@ -229,7 +232,7 @@ public class CommonTest {
     }
 
     @Test
-    public void optional(){
+    public void optional() {
         List<User> list = new ArrayList<>();
         User userBean = new User();
         userBean.setAddress("浙江温州");
@@ -237,10 +240,132 @@ public class CommonTest {
         userBean.setUserName("王五");
         list.add(userBean);
         Optional<List<User>> optionalUsers = Optional.ofNullable(list);
-        optionalUsers.ifPresent(users-> users.forEach(user-> System.out.println(user)));
+        optionalUsers.ifPresent(users -> users.forEach(user -> System.out.println(user)));
         Optional<Integer> integer = optionalUsers.map(users -> users.get(0).getAge());
 
     }
 
+    @Test
+    public void functionT() {
+        CommonTest commonTest = new CommonTest();
+        User user = new User();
+        user.setAge(1);
+        int x = 3;
+        int y = 2 + user.getAge();
+        Optional<MlzjResultBean> mlzjResultBean = Optional.of(commonTest).map(CommonTest::getParam).map(commonTest::paramTest);
+    }
+
+    @Test
+    public void iteration() {
+        ListAggregate<String> listAggregate = new ListAggregate<>();
+        listAggregate.addItem("1").addItem("2").addItem("3").addItem("4");
+        Iteration<String> iterator = listAggregate.createIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+        String[] str = new String[5];
+        ArrayAggregate<String> arrayAggregate = new ArrayAggregate<>(str);
+        arrayAggregate.addItem("1").addItem("2").addItem("3").addItem("4").addItem("5").addItem("6");
+        Iteration<String> iterator1 = arrayAggregate.createIterator();
+        while (iterator1.hasNext()) {
+            System.out.println(iterator1.next());
+        }
+    }
+
+    public MlzjParameterBean getParam() {
+        int x = 10;
+        int y = 20;
+        User user = new User();
+        user.setAge(10);
+        user.setUserName("张三");
+        return new MlzjParameterBean().addParameters(x, y, user);
+    }
+
+    public MlzjResultBean paramTest(MlzjParameterBean mlzjParameterBean) {
+        Integer x = (Integer) mlzjParameterBean.getParam(0);
+        Integer y = (Integer) mlzjParameterBean.getParam(1);
+        User user = (User) mlzjParameterBean.getParam(2);
+        System.out.println(x);
+        System.out.println(y);
+        System.out.println(user);
+        user.setAge(50);
+        user.setAddress("长安区");
+        return MlzjResultBean.getInstance().addResult(x + y).addResult(user);
+    }
+
+    @Test
+    public void stringConcatNull() {
+        String str = "str";
+        String s = null;
+        System.out.println(str + s);
+    }
+
+    @Test
+    public void sum() {
+        int sum = 0;
+        long s1 = System.currentTimeMillis();
+        for (int i = 1; i <= 100; i++) {
+            sum = sum + i;
+        }
+        System.out.println(sum);
+        System.out.println(System.currentTimeMillis() - s1);
+        long s2 = System.currentTimeMillis();
+        System.out.println((1 + 100) * 100 / 2);
+        System.out.println(System.currentTimeMillis() - s2);
+    }
+
+    @Test
+    public void listForEach() {
+        List<String> list = new ArrayList<>();
+        Iterator<String> iterator = list.iterator();
+
+        int processors = Runtime.getRuntime().availableProcessors();
+        System.out.println(processors);
+
+    }
+
+    @Test
+    public void mlzjArrayListTest() {
+        MlzjList<String> mlzjList = new MlzjArrayList<>();
+        mlzjList.add("1").add("2").add("3").add("4").add("5").add("6").add("7");
+        mlzjList.set(2, "2");
+        mlzjList.remove("2");
+
+        System.out.println(mlzjList);
+        System.out.println(mlzjList.size());
+        System.out.println(mlzjList.get(3));
+        new LinkedList<>().iterator();
+        MlzjList<Integer> mlzjLinkList = new MLzjLinkList<>();
+        mlzjLinkList.add(1).add(2).add(3);
+        mlzjLinkList.set(1, 20);
+        mlzjLinkList.remove(3);
+        System.out.println(mlzjLinkList);
+    }
+
+    @Test
+    public void testMlzjStack() {
+        MlzjStack<String> mlzjStack = new MlzjStack<>();
+        mlzjStack.push("1").push("2").push("3").push("4").push("5");
+        System.out.println(mlzjStack.peek());
+        System.out.println(mlzjStack.pop());
+        System.out.println(mlzjStack.pop());
+        System.out.println(mlzjStack.pop());
+        System.out.println(mlzjStack.pop());
+        System.out.println(mlzjStack.pop());
+    }
+
+    @Test
+    public void nullpoint() {
+        List<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++){
+            arr.add(i);
+        }
+        long l = System.currentTimeMillis();
+        arr.forEach(i-> {int x = i/2;});
+        System.out.println(System.currentTimeMillis() - l);
+        long l1 = System.currentTimeMillis();
+        arr.forEach(i-> {int x = i>>1;});
+        System.out.println(System.currentTimeMillis() - l1);
+    }
 
 }
