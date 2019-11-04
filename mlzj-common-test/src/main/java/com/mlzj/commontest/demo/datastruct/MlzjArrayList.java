@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 数组线性表
  * @author yhl
  * @date 2019/10/10
  */

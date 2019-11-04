@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 链表
  * @author yhl
  * @date 2019/10/11
  */

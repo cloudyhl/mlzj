@@ -86,18 +86,22 @@ public class KmpMatching {
                 } else {
                     i++;
                 }
-
             } else {
                 j = 0;
             }
         }
         System.arraycopy(resultArray, 0, resultArray, 1, resultArray.length - 1);
+        for (int index = 0; index < resultArray.length; index++){
+            if (otherArray[resultArray[index]] == otherArray[index]){
+                resultArray[index] =  resultArray[resultArray[index]];
+            }
+        }
         return resultArray;
     }
 
     public static void main(String[] args) {
-        String master = "abc";
-        String other = "aba";
+        String master = "abcaaaasdsadasdas";
+        String other = "ababaaabc";
         String others = "aaabssscdsa";
         int[] next = getNext(other);
         System.out.println(hasOtherKmp(master, other));

@@ -4,12 +4,15 @@ import com.mlzj.commontest.demo.ArrayAggregate;
 import com.mlzj.commontest.demo.Iteration;
 import com.mlzj.commontest.demo.ListAggregate;
 import com.mlzj.commontest.demo.datastruct.MLzjLinkList;
+import com.mlzj.commontest.demo.datastruct.MLzjTree;
 import com.mlzj.commontest.demo.datastruct.MlzjArrayList;
 import com.mlzj.commontest.demo.datastruct.MlzjStack;
 import com.mlzj.commontest.demo.datastruct.interfaces.MlzjList;
 import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.observe.*;
 import com.mlzj.commontest.utils.ClassTools;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -295,6 +298,9 @@ public class CommonTest {
 
     @Test
     public void stringConcatNull() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println(localDateTime.getHour());
+        System.out.println(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:00:00"));
         String str = "str";
         String s = null;
         System.out.println(str + s);
@@ -368,4 +374,47 @@ public class CommonTest {
         System.out.println(System.currentTimeMillis() - l1);
     }
 
+    @Test
+    public void testHashCode(){
+        User user = new User();
+        user.setAge("12".hashCode());
+        user.setAddress("ac");
+        System.out.println(user.hashCode());
+        int h;
+        System.out.println(user.hashCode()^user.hashCode()>>>16);
+        System.out.println(~1);
+
+    }
+
+    @Test
+    public void testMlzjTree(){
+        MLzjTree<String> mLzjTree = new MLzjTree<>();
+        Integer code4 = mLzjTree.add("4");
+        Integer code2 = mLzjTree.add("2");
+        Integer code3 = mLzjTree.add("3");
+        Integer code1 = mLzjTree.add("1");
+        Integer code6 = mLzjTree.add("6");
+        Integer code5 = mLzjTree.add("5");
+        Integer code7 = mLzjTree.add("7");
+        mLzjTree.removeByCode(code2);
+        System.out.println(mLzjTree.getByCode(code6));
+        System.out.println(mLzjTree);
+    }
+
+    @Test
+    public void removeList(){
+        List<String> lists = new ArrayList<>();
+        lists.add("1");
+        lists.add("4");
+        lists.add("2");
+        lists.add("3");
+        lists.remove(2);
+        System.out.println(lists);
+    }
+    @Test
+    public void testFormayMd(){
+        Date date = new Date();
+        String mMdd = DateFormatUtils.format(date, "MMdd");
+        System.out.println(mMdd);
+    }
 }
