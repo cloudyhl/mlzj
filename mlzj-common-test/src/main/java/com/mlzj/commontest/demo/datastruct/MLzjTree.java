@@ -37,6 +37,28 @@ public class MLzjTree<T> {
         return compareAndSet(null, root, data);
     }
 
+
+    /**
+     * 根据code返回code对应的节点
+     *
+     * @param current 当前节点
+     * @param code    code
+     * @return code对应的节点
+     */
+    public TreeNode getTreeNodeByCode(TreeNode current, Integer code) {
+        if (Objects.isNull(current)) {
+            return null;
+        }
+        if (Objects.equals(current.code, code)) {
+            return current;
+        }
+        if (current.code > code) {
+            return getTreeNodeByCode(current.leftChild, code);
+        } else {
+            return getTreeNodeByCode(current.rightChild, code);
+        }
+    }
+
     /**
      * 比较并set子节点
      *
@@ -85,14 +107,10 @@ public class MLzjTree<T> {
      * @return 返回查询的结果
      */
     private T getByCode(TreeNode current, Integer code) {
-        if (Objects.equals(current.code, code)) {
-            return dataArray.get(current.getIndex());
+        if (this.getTreeNodeByCode(current, code) != null) {
+            return this.dataArray.get(this.getTreeNodeByCode(current, code).getIndex());
         }
-        if (current.code > code) {
-            return getByCode(current.leftChild, code);
-        } else {
-            return getByCode(current.rightChild, code);
-        }
+        return null;
     }
 
     /**
@@ -109,13 +127,13 @@ public class MLzjTree<T> {
      * 通过code 从current处开始查找删除节点
      *
      * @param current 当前节点
-     * @param code 需要删除的code
+     * @param code    需要删除的code
      */
     private synchronized void removeByCode(TreeNode current, Integer code) {
         if (Objects.equals(current.code, code)) {
             CheckRemove checkRemove = this.checkRemove(current);
             this.remove(current, checkRemove);
-            if (!checkRemove.isHasTwo()){
+            if (!checkRemove.isHasTwo()) {
                 this.reBuildIndex(root, current.getIndex());
                 this.dataArray.remove(current.getIndex().intValue());
             }
@@ -131,7 +149,8 @@ public class MLzjTree<T> {
 
     /**
      * 重新设置索引
-     * @param current 当前节点
+     *
+     * @param current      当前节点
      * @param currentIndex 被删除节点的索引
      */
     private void reBuildIndex(TreeNode current, Integer currentIndex) {
@@ -183,7 +202,7 @@ public class MLzjTree<T> {
             Integer minCode = min.getCode();
             Integer minIndex = min.getIndex();
             dataArray.set(current.getIndex(), dataArray.get(min.getIndex()));
-            this.removeByCode(current,min.getCode());
+            this.removeByCode(current, min.getCode());
             current.setCode(minCode);
 
         }
@@ -213,14 +232,14 @@ public class MLzjTree<T> {
         if (treeNode.equals(root) && treeNode.getIndex() == 0) {
             checkRemove.setRoot(true);
         }
-        if (Objects.isNull(treeNode.leftChild) && Objects.isNull(treeNode.rightChild)) {
+        if (Objects.isNull(treeNode.getLeftChild()) && Objects.isNull(treeNode.getRightChild())) {
             checkRemove.setHasNone(true);
         }
-        if ((Objects.isNull(treeNode.leftChild) && Objects.nonNull(treeNode.rightChild)) || ((Objects.nonNull(treeNode.leftChild) && Objects.isNull(treeNode.rightChild)))) {
+        if ((Objects.isNull(treeNode.getLeftChild()) && Objects.nonNull(treeNode.getRightChild())) || (Objects.nonNull(treeNode.getLeftChild()) && Objects.isNull(treeNode.getRightChild()))) {
             checkRemove.setHasOne(true);
 
         }
-        if (Objects.nonNull(treeNode.leftChild) && Objects.nonNull(treeNode.rightChild)) {
+        if (Objects.nonNull(treeNode.getLeftChild()) && Objects.nonNull(treeNode.getRightChild())) {
             checkRemove.setHasTwo(true);
         }
         return checkRemove;
@@ -288,7 +307,7 @@ public class MLzjTree<T> {
         private boolean hasTwo = false;
 
         /**
-         *
+         * 是否没有子节点
          */
         private boolean hasNone = false;
     }

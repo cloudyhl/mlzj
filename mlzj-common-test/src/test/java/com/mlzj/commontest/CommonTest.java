@@ -7,20 +7,35 @@ import com.mlzj.commontest.demo.datastruct.MLzjLinkList;
 import com.mlzj.commontest.demo.datastruct.MLzjTree;
 import com.mlzj.commontest.demo.datastruct.MlzjArrayList;
 import com.mlzj.commontest.demo.datastruct.MlzjStack;
+import com.mlzj.commontest.demo.datastruct.domain.DirectedDijkstraMinRouteResp;
+import com.mlzj.commontest.demo.datastruct.domain.FloydMinRouteResp;
+import com.mlzj.commontest.demo.datastruct.graph.DirectedGraph;
+import com.mlzj.commontest.demo.datastruct.graph.UndirectedGraph;
+import com.mlzj.commontest.demo.datastruct.graph.auxiliary.ArcVertex;
+import com.mlzj.commontest.demo.datastruct.graph.auxiliary.Edge;
+import com.mlzj.commontest.demo.datastruct.graph.auxiliary.Vertex;
 import com.mlzj.commontest.demo.datastruct.interfaces.MlzjList;
 import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.observe.*;
 import com.mlzj.commontest.utils.ClassTools;
+import org.apache.commons.codec.cli.Digest;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.Md5Crypt;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -363,31 +378,35 @@ public class CommonTest {
     @Test
     public void nullpoint() {
         List<Integer> arr = new ArrayList<>();
-        for (int i = 0; i < 1000000; i++){
+        for (int i = 0; i < 1000000; i++) {
             arr.add(i);
         }
         long l = System.currentTimeMillis();
-        arr.forEach(i-> {int x = i/2;});
+        arr.forEach(i -> {
+            int x = i / 2;
+        });
         System.out.println(System.currentTimeMillis() - l);
         long l1 = System.currentTimeMillis();
-        arr.forEach(i-> {int x = i>>1;});
+        arr.forEach(i -> {
+            int x = i >> 1;
+        });
         System.out.println(System.currentTimeMillis() - l1);
     }
 
     @Test
-    public void testHashCode(){
+    public void testHashCode() {
         User user = new User();
         user.setAge("12".hashCode());
         user.setAddress("ac");
         System.out.println(user.hashCode());
         int h;
-        System.out.println(user.hashCode()^user.hashCode()>>>16);
+        System.out.println(user.hashCode() ^ user.hashCode() >>> 16);
         System.out.println(~1);
 
     }
 
     @Test
-    public void testMlzjTree(){
+    public void testMlzjTree() {
         MLzjTree<String> mLzjTree = new MLzjTree<>();
         Integer code4 = mLzjTree.add("4");
         Integer code2 = mLzjTree.add("2");
@@ -397,24 +416,341 @@ public class CommonTest {
         Integer code5 = mLzjTree.add("5");
         Integer code7 = mLzjTree.add("7");
         mLzjTree.removeByCode(code2);
+        System.out.println(mLzjTree.getByCode(2));
         System.out.println(mLzjTree.getByCode(code6));
         System.out.println(mLzjTree);
     }
 
     @Test
-    public void removeList(){
+    public void removeList() {
         List<String> lists = new ArrayList<>();
         lists.add("1");
         lists.add("4");
         lists.add("2");
         lists.add("3");
-        lists.remove(2);
-        System.out.println(lists);
+        List<String> list2 = new ArrayList<>();
+        list2.add("4");
+        list2.add("5");
+        list2.add("6");
+        list2.add("7");
+        System.out.println(lists.removeAll(list2));
     }
+
     @Test
-    public void testFormayMd(){
+    public void testFormayMd() {
         Date date = new Date();
         String mMdd = DateFormatUtils.format(date, "MMdd");
         System.out.println(mMdd);
     }
+
+    @Test
+    public void listCopy() {
+        List<String> list1 = Lists.newArrayList("1", "2");
+        List<String> list2 = new ArrayList<>(list1);
+        String s = list1.get(1);
+        list1.remove(1);
+        System.out.println(list1);
+        System.out.println(list2);
+        System.out.println(s);
+    }
+
+    @Test
+    public void encode() throws UnsupportedEncodingException {
+        String s = DigestUtils.md5Hex("J10003000000001111110803192020");
+        System.out.println(s);
+    }
+
+    @Test
+    public void undirectedGraph() {
+        List<Vertex<String>> vertices = new ArrayList<>();
+        UndirectedGraph<String> undirectedGraph = new UndirectedGraph<>();
+        vertices.add(undirectedGraph.addVertex("v0"));
+        vertices.add(undirectedGraph.addVertex("v1"));
+        vertices.add(undirectedGraph.addVertex("v2"));
+        vertices.add(undirectedGraph.addVertex("v3"));
+        undirectedGraph.addEdge(vertices.get(0), vertices.get(1), 10);
+        undirectedGraph.addEdge(vertices.get(0), vertices.get(2), 20);
+        undirectedGraph.addEdge(vertices.get(2), vertices.get(3), 14);
+        undirectedGraph.addEdge(vertices.get(0), vertices.get(3), 21);
+        undirectedGraph.addEdge(vertices.get(2), vertices.get(1), 55);
+
+        undirectedGraph.drawGraph();
+
+        UndirectedGraph<String> undirectedGraph2 = new UndirectedGraph<>();
+        List<Vertex<String>> vertices2 = new ArrayList<>();
+        vertices2.add(undirectedGraph2.addVertex("v0"));
+        vertices2.add(undirectedGraph2.addVertex("v1"));
+        vertices2.add(undirectedGraph2.addVertex("v2"));
+        vertices2.add(undirectedGraph2.addVertex("v3"));
+        undirectedGraph2.addEdgeBuildGraph(vertices2.get(0), vertices2.get(1), null);
+        undirectedGraph2.addEdgeBuildGraph(vertices2.get(0), vertices2.get(2), null);
+        undirectedGraph2.addEdgeBuildGraph(vertices2.get(2), vertices2.get(3), null);
+        undirectedGraph2.addEdgeBuildGraph(vertices2.get(0), vertices2.get(3), null);
+        undirectedGraph2.addEdgeBuildGraph(vertices2.get(2), vertices2.get(1), null);
+        //undirectedGraph2.delVertex(vertices2.get(2));
+        undirectedGraph2.dfsErgodic(vertices2.get(0));
+        undirectedGraph.bfsErgodic(vertices2.get(0));
+        List<Edge<String>> v0 = undirectedGraph.getVertex("v0").getEdgesByVertex();
+        Integer v01 = undirectedGraph.getVertex("v0").getFirstEdge().getWeight();
+        v0.remove(undirectedGraph.getVertex("v0").getFirstEdge());
+        for (Edge<String> edge : v0) {
+            if (edge.getEdgeNextVertex(undirectedGraph.getVertex("v0")).equals(undirectedGraph.getVertex("v3"))) {
+                System.out.println(v01 + edge.getWeight());
+            }
+        }
+    }
+
+    @Test
+    public void searchForGraph() {
+        UndirectedGraph<String> undirectedGraph = new UndirectedGraph<>();
+        undirectedGraph.addVertex("0");
+        undirectedGraph.addVertex("1");
+        undirectedGraph.addVertex("2");
+        undirectedGraph.addVertex("3");
+        undirectedGraph.addVertex("4");
+        undirectedGraph.addVertex("5");
+        undirectedGraph.addVertex("6");
+        List<Vertex<String>> vertexs = undirectedGraph.getVertexs();
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(1));
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(2));
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(5));
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(6));
+        undirectedGraph.addEdge(vertexs.get(5), vertexs.get(3));
+        undirectedGraph.addEdge(vertexs.get(5), vertexs.get(4));
+        undirectedGraph.addEdge(vertexs.get(3), vertexs.get(4));
+        undirectedGraph.addEdge(vertexs.get(4), vertexs.get(6));
+        undirectedGraph.drawGraph();
+        System.out.println("dfs------------begin------------------");
+        undirectedGraph.dfsErgodic(vertexs.get(1));
+        System.out.println("bfs------------begin------------------");
+        undirectedGraph.bfsErgodic(vertexs.get(1));
+        System.out.println("bfsUseQueue----------begin------------");
+        undirectedGraph.bfsUseQueue(vertexs.get(0));
+        System.out.println(vertexs);
+        System.out.println(undirectedGraph.getEdges());
+    }
+
+    @Test
+    public void getMinEdgeWeight() {
+        long l = System.currentTimeMillis();
+        UndirectedGraph<String> undirectedGraph = new UndirectedGraph<>();
+        undirectedGraph.addVertex("v0");
+        undirectedGraph.addVertex("v1");
+        undirectedGraph.addVertex("v2");
+        undirectedGraph.addVertex("v3");
+        undirectedGraph.addVertex("v4");
+        undirectedGraph.addVertex("v5");
+        undirectedGraph.addVertex("v6");
+        undirectedGraph.addVertex("v7");
+        undirectedGraph.addVertex("v8");
+        List<Vertex<String>> vertexs = undirectedGraph.getVertexs();
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(1), 10);
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(5), 11);
+        undirectedGraph.addEdge(vertexs.get(1), vertexs.get(2), 18);
+        undirectedGraph.addEdge(vertexs.get(1), vertexs.get(8), 12);
+        undirectedGraph.addEdge(vertexs.get(1), vertexs.get(6), 16);
+        undirectedGraph.addEdge(vertexs.get(2), vertexs.get(8), 8);
+        undirectedGraph.addEdge(vertexs.get(2), vertexs.get(3), 22);
+        undirectedGraph.addEdge(vertexs.get(8), vertexs.get(3), 21);
+        undirectedGraph.addEdge(vertexs.get(6), vertexs.get(3), 24);
+        undirectedGraph.addEdge(vertexs.get(6), vertexs.get(7), 19);
+        undirectedGraph.addEdge(vertexs.get(3), vertexs.get(4), 20);
+        undirectedGraph.addEdge(vertexs.get(3), vertexs.get(7), 16);
+        undirectedGraph.addEdge(vertexs.get(7), vertexs.get(4), 7);
+        undirectedGraph.addEdge(vertexs.get(4), vertexs.get(5), 26);
+        undirectedGraph.addEdge(vertexs.get(6), vertexs.get(5), 17);
+        undirectedGraph.drawGraph();
+        List<Edge<String>> primEdges = undirectedGraph.getPrimEdges(vertexs.get(5));
+        List<Edge<String>> primEdges1 = undirectedGraph.getPrimEdges();
+
+        List<Edge<String>> edges = undirectedGraph.getEdges();
+        List<Edge<String>> kruskalEdges = undirectedGraph.getKruskalEdges();
+        long count = primEdges.stream().mapToLong(Edge::getWeight).sum();
+        long count1 = primEdges1.stream().mapToLong(Edge::getWeight).sum();
+        long count2 = kruskalEdges.stream().mapToLong(Edge::getWeight).sum();
+        System.out.println(kruskalEdges);
+        System.out.println(primEdges);
+        System.out.println(count + " " + count1 + " " + count2);
+        System.out.println(System.currentTimeMillis() - l);
+    }
+
+    @Test
+    public void queue() {
+        Queue<String> queue = new ArrayDeque<>();
+        queue.add("1");
+        queue.add("2");
+        queue.add("3");
+        String peek = queue.poll();
+        System.out.println(peek);
+        System.out.println(queue);
+    }
+
+    @Test
+    public void testMinRoute() {
+        UndirectedGraph<String> undirectedGraph = new UndirectedGraph<>();
+        undirectedGraph.addVertex("v0");
+        undirectedGraph.addVertex("v1");
+        undirectedGraph.addVertex("v2");
+        undirectedGraph.addVertex("v3");
+        undirectedGraph.addVertex("v4");
+        undirectedGraph.addVertex("v5");
+        undirectedGraph.addVertex("v6");
+        undirectedGraph.addVertex("v7");
+        undirectedGraph.addVertex("v8");
+        List<Vertex<String>> vertexs = undirectedGraph.getVertexs();
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(1), 1);
+        undirectedGraph.addEdge(vertexs.get(0), vertexs.get(2), 5);
+        undirectedGraph.addEdge(vertexs.get(1), vertexs.get(2), 3);
+        undirectedGraph.addEdge(vertexs.get(1), vertexs.get(3), 7);
+        undirectedGraph.addEdge(vertexs.get(1), vertexs.get(4), 5);
+        undirectedGraph.addEdge(vertexs.get(2), vertexs.get(4), 1);
+        undirectedGraph.addEdge(vertexs.get(2), vertexs.get(5), 7);
+        undirectedGraph.addEdge(vertexs.get(3), vertexs.get(4), 2);
+        undirectedGraph.addEdge(vertexs.get(4), vertexs.get(5), 3);
+        undirectedGraph.addEdge(vertexs.get(3), vertexs.get(6), 3);
+        undirectedGraph.addEdge(vertexs.get(4), vertexs.get(6), 6);
+        undirectedGraph.addEdge(vertexs.get(4), vertexs.get(7), 9);
+        undirectedGraph.addEdge(vertexs.get(5), vertexs.get(7), 5);
+        undirectedGraph.addEdge(vertexs.get(6), vertexs.get(7), 2);
+        undirectedGraph.addEdge(vertexs.get(6), vertexs.get(8), 7);
+        undirectedGraph.addEdge(vertexs.get(7), vertexs.get(8), 4);
+        undirectedGraph.drawGraph();
+        undirectedGraph.dijkstraMinRoute(vertexs.get(0));
+        FloydMinRouteResp<String> stringFloydMinRouteResp = undirectedGraph.floydMinRoute();
+    }
+
+    @Test
+    public void testBuildDirectedGraph() {
+        DirectedGraph<String> directedGraph = new DirectedGraph<>();
+        List<ArcVertex<String>> vertices = new ArrayList<>();
+        vertices.add(directedGraph.addVertex("v0"));
+        vertices.add(directedGraph.addVertex("v1"));
+        vertices.add(directedGraph.addVertex("v2"));
+        vertices.add(directedGraph.addVertex("v3"));
+        vertices.add(directedGraph.addVertex("v4"));
+        vertices.add(directedGraph.addVertex("v5"));
+        vertices.add(directedGraph.addVertex("v6"));
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(2), 1);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3), 12);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3), 9);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(4), 3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(3), 4);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(5), 5);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(5), 13);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6), 15);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(6), 4);
+        directedGraph.drawGraph();
+        //directedGraph.delEdge(vertices.get(1), vertices.get(2));
+        //directedGraph.delVertex(vertices.get(0));
+        //DirectedDijkstraMinRouteResp<String> minRoute = directedGraph.getDijkstraMinRoute(vertices.get(2));
+        directedGraph.floydMinRoute();
+    }
+
+    @Test
+    public void topologySort() {
+        long start = System.currentTimeMillis();
+        DirectedGraph<String> directedGraph = new DirectedGraph<>();
+        List<ArcVertex<String>> vertices = new ArrayList<>();
+        vertices.add(directedGraph.addVertex("v0"));
+        vertices.add(directedGraph.addVertex("v1"));
+        vertices.add(directedGraph.addVertex("v2"));
+        vertices.add(directedGraph.addVertex("v3"));
+        vertices.add(directedGraph.addVertex("v4"));
+        vertices.add(directedGraph.addVertex("v5"));
+        vertices.add(directedGraph.addVertex("v6"));
+        vertices.add(directedGraph.addVertex("v7"));
+        vertices.add(directedGraph.addVertex("v8"));
+        vertices.add(directedGraph.addVertex("v9"));
+        vertices.add(directedGraph.addVertex("v10"));
+        vertices.add(directedGraph.addVertex("v11"));
+        vertices.add(directedGraph.addVertex("v12"));
+        vertices.add(directedGraph.addVertex("v13"));
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(4));
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(5));
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(11));
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4));
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(8));
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(2));
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5));
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(6));
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(2));
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(13));
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7));
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(8));
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(12));
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(7));
+        directedGraph.addArcEdge(vertices.get(9), vertices.get(10));
+        directedGraph.addArcEdge(vertices.get(9), vertices.get(11));
+        directedGraph.addArcEdge(vertices.get(10), vertices.get(13));
+        directedGraph.addArcEdge(vertices.get(12), vertices.get(9));
+        directedGraph.drawGraph();
+        List<ArcVertex<String>> vertices1 = directedGraph.topologySort();
+        System.out.println(System.currentTimeMillis() - start);
+    }
+
+    @Test
+    public void testCruxRoute(){
+        DirectedGraph<String> directedGraph = new DirectedGraph<>();
+        List<ArcVertex<String>> vertices = new ArrayList<>();
+        vertices.add(directedGraph.addVertex("v0"));
+        vertices.add(directedGraph.addVertex("v1"));
+        vertices.add(directedGraph.addVertex("v2"));
+        vertices.add(directedGraph.addVertex("v3"));
+        vertices.add(directedGraph.addVertex("v4"));
+        vertices.add(directedGraph.addVertex("v5"));
+        vertices.add(directedGraph.addVertex("v6"));
+        vertices.add(directedGraph.addVertex("v7"));
+        vertices.add(directedGraph.addVertex("v8"));
+        vertices.add(directedGraph.addVertex("v9"));
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(1),3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(2),4);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3),8);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5),7);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4),6);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3),5);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(4),3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6),9);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7),4);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(7),6);
+        directedGraph.addArcEdge(vertices.get(6), vertices.get(9),2);
+        directedGraph.addArcEdge(vertices.get(7), vertices.get(8),5);
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(9),3);
+        directedGraph.drawGraph();
+        directedGraph.cruxRoute();
+    }
+
+    @Test
+    public void testDfsDireted(){
+        DirectedGraph<String> directedGraph = new DirectedGraph<>();
+        List<ArcVertex<String>> vertices = new ArrayList<>();
+        vertices.add(directedGraph.addVertex("v0"));
+        vertices.add(directedGraph.addVertex("v1"));
+        vertices.add(directedGraph.addVertex("v2"));
+        vertices.add(directedGraph.addVertex("v3"));
+        vertices.add(directedGraph.addVertex("v4"));
+        vertices.add(directedGraph.addVertex("v5"));
+        vertices.add(directedGraph.addVertex("v6"));
+        vertices.add(directedGraph.addVertex("v7"));
+        vertices.add(directedGraph.addVertex("v8"));
+        vertices.add(directedGraph.addVertex("v9"));
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(1),3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(2),4);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3),8);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5),7);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4),6);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3),5);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(4),3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6),9);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7),4);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(7),6);
+        directedGraph.addArcEdge(vertices.get(6), vertices.get(9),2);
+        directedGraph.addArcEdge(vertices.get(7), vertices.get(8),5);
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(9),3);
+        directedGraph.drawGraph();
+        List<ArcVertex<String>> vertices1 = directedGraph.dfsErgodic(vertices.get(0));
+        List<ArcVertex<String>> vertices2 = directedGraph.bfsErgodic(vertices.get(0));
+        System.out.println(vertices1);
+        System.out.println(vertices2);
+    }
+
 }
