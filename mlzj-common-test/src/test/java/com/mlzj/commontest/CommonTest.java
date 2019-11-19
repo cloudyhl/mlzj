@@ -753,4 +753,20 @@ public class CommonTest {
         System.out.println(vertices2);
     }
 
+    @Test
+    public void testTreeAdd(){
+        MLzjTree<Integer> mLzjTree = new MLzjTree<>();
+        mLzjTree.addForAvl(3);
+        mLzjTree.addForAvl(2);
+        mLzjTree.addForAvl(1);
+        mLzjTree.addForAvl(4);
+        mLzjTree.addForAvl(5);
+        mLzjTree.addForAvl(6);
+        mLzjTree.addForAvl(7);
+        mLzjTree.addForAvl(10);
+        mLzjTree.addForAvl(9);
+        mLzjTree.addForAvl(8);
+        System.out.println(mLzjTree);
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.mlzj.commontest.demo.datastruct.search;
 
 /**
- * 这般查找
+ * 折半查找
  *
  * @author yhl
  * @date 2019/11/15
@@ -12,7 +12,7 @@ public class HalveSearch {
     public static void main(String[] args) {
         int[] array = {1, 23, 44, 47, 64, 67, 72, 73, 91};
         int target = 47;
-        System.out.println(halveSearch(array, 91));
+        System.out.println(halveSearch(array, target));
     }
 
     private static int halveSearch(int[] array, int target) {
