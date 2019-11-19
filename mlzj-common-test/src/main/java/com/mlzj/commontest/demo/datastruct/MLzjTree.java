@@ -1,12 +1,10 @@
 package com.mlzj.commontest.demo.datastruct;
 
-import com.google.common.collect.Sets;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * 二叉树
@@ -29,8 +27,6 @@ public class MLzjTree<T> {
      * 等高
      */
     private static final Integer EH = 0;
-
-    private Set<Integer> balanceSet = Sets.newHashSet(EH, LH, RH);
     /**
      * 具体数据
      */
@@ -218,11 +214,14 @@ public class MLzjTree<T> {
             return;
         }
         if (checkRemove.hasOne) {
+            TreeNode childNode = current.getLeftChild() == null ? current.getRightChild() : current.getLeftChild();
+            childNode.setParent(current.getParent());
             if (current.getCode() > current.getParent().getCode()) {
-                current.getParent().setRightChild(current.getLeftChild() == null ? current.getRightChild() : null);
+                current.getParent().setRightChild(childNode);
+
             }
             if (current.getCode() < current.getParent().getCode()) {
-                current.getParent().setLeftChild(current.getLeftChild() == null ? current.getRightChild() : null);
+                current.getParent().setLeftChild(childNode);
             }
             return;
         }
@@ -233,7 +232,7 @@ public class MLzjTree<T> {
             dataArray.set(current.getIndex(), dataArray.get(min.getIndex()));
             this.removeByCode(current, min.getCode());
             current.setCode(minCode);
-
+            current.setRightChild(current.getRightChild());
         }
         return;
     }
@@ -246,7 +245,7 @@ public class MLzjTree<T> {
      */
     private TreeNode getMin(TreeNode current) {
         if (Objects.nonNull(current.getLeftChild())) {
-            this.getMin(current.getLeftChild());
+            return this.getMin(current.getLeftChild());
         }
         return current;
     }
@@ -303,9 +302,10 @@ public class MLzjTree<T> {
 
     /**
      * 向平衡二叉树中新增节点
+     *
      * @param parentNode 父节点
-     * @param current 当前节点
-     * @param data 数据
+     * @param current    当前节点
+     * @param data       数据
      * @return 新增的节点
      */
     private TreeNode addTreeNodeAve(TreeNode parentNode, TreeNode current, T data) {
@@ -350,20 +350,20 @@ public class MLzjTree<T> {
         }
         //左树过高
         if (this.getBf(current) > LH) {
-            if (this.getBf(current.getLeftChild()) > 0 ) {
-                this.rightRotate(current, LH);
+            if (this.getBf(current.getLeftChild()) > 0) {
+                this.rightRotate(current);
             } else {
-                this.leftRotate(current.getLeftChild(), LH);
-                this.rightRotate(current, LH);
+                this.leftRotate(current.getLeftChild());
+                this.rightRotate(current);
             }
         }
         //右树过高
         if (this.getBf(current) < RH) {
             if (this.getBf(current.getRightChild()) < 0) {
-                this.leftRotate(current, RH);
+                this.leftRotate(current);
             } else {
-                this.rightRotate(current.getRightChild(), RH);
-                this.leftRotate(current, RH);
+                this.rightRotate(current.getRightChild());
+                this.leftRotate(current);
             }
 
         }
@@ -371,6 +371,7 @@ public class MLzjTree<T> {
 
     /**
      * 计算当前节点的平衡因子
+     *
      * @param current 当前的节点
      * @return 平衡因子 即左树和右树高度差
      */
@@ -402,6 +403,7 @@ public class MLzjTree<T> {
 
     /**
      * 初始化平衡二叉树
+     *
      * @param data 插入的数据
      * @return 新加入节点的code
      */
@@ -421,14 +423,14 @@ public class MLzjTree<T> {
      *
      * @param treeNode 进行左旋的节点
      */
-    private void leftRotate(TreeNode treeNode, Integer highCode) {
+    private void leftRotate(TreeNode treeNode) {
         TreeNode tempTreeNode = treeNode.getRightChild().getLeftChild();
         treeNode.getRightChild().setLeftChild(treeNode);
         if (Objects.isNull(treeNode.getParent())) {
             root = treeNode.getRightChild();
             root.setParent(null);
         } else {
-            if (Objects.equals(highCode, RH)) {
+            if (treeNode.getCode() > treeNode.getParent().getCode()) {
                 treeNode.getParent().setRightChild(treeNode.getRightChild());
             } else {
                 treeNode.getParent().setLeftChild(treeNode.getRightChild());
@@ -449,14 +451,14 @@ public class MLzjTree<T> {
      *
      * @param treeNode 进行右旋的节点
      */
-    private void rightRotate(TreeNode treeNode, Integer highCode) {
+    private void rightRotate(TreeNode treeNode) {
         TreeNode tempTreeNode = treeNode.getLeftChild().getRightChild();
         treeNode.getLeftChild().setRightChild(treeNode);
         if (Objects.isNull(treeNode.getParent())) {
             root = treeNode.getLeftChild();
             root.setParent(null);
         } else {
-            if (Objects.equals(highCode, LH)) {
+            if (treeNode.code < treeNode.getParent().code) {
                 treeNode.getParent().setLeftChild(treeNode.getLeftChild());
             } else {
                 treeNode.getParent().setRightChild(treeNode.getLeftChild());
@@ -470,6 +472,45 @@ public class MLzjTree<T> {
         treeNode.setLeftChild(tempTreeNode);
         treeNode.setHeight(this.getHeight(treeNode));
         treeNode.getParent().setHeight(this.getHeight(treeNode.getParent()));
+    }
+
+    public void removeByCodeAvl(Integer code) {
+        this.removeByCodeAvl(root, code);
+    }
+
+    public void removeByDataAvl(T data) {
+        int code = this.hash(data);
+        this.removeByCodeAvl(root, code);
+    }
+
+    /**
+     * 通过code 从current处开始查找删除节点
+     *
+     * @param current 当前节点
+     * @param code    需要删除的code
+     */
+    private synchronized void removeByCodeAvl(TreeNode current, Integer code) {
+        if (Objects.equals(current.code, code)) {
+            CheckRemove checkRemove = this.checkRemove(current);
+            this.remove(current, checkRemove);
+            if (!checkRemove.isHasTwo()) {
+                this.reBuildIndex(root, current.getIndex());
+                this.dataArray.remove(current.getIndex().intValue());
+            }
+            current.setHeight(this.getHeight(current));
+            this.changeTree(current);
+            return;
+        }
+        if (current.code > code) {
+            removeByCodeAvl(current.leftChild, code);
+            current.setHeight(this.getHeight(current));
+            this.changeTree(current);
+        } else {
+            removeByCodeAvl(current.rightChild, code);
+            current.setHeight(this.getHeight(current));
+            this.changeTree(current);
+        }
+        return;
     }
 
     @Data

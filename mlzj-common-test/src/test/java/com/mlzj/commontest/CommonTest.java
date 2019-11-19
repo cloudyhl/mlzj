@@ -766,7 +766,10 @@ public class CommonTest {
         mLzjTree.addForAvl(10);
         mLzjTree.addForAvl(9);
         mLzjTree.addForAvl(8);
+        mLzjTree.removeByDataAvl(4);
+
         System.out.println(mLzjTree);
+        System.out.println(mLzjTree.getByCode(2));
     }
 
 }
