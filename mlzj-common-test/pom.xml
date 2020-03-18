@@ -47,6 +47,73 @@
             <artifactId>mlzj-mongodb-support</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- 多数据源配置 -->
+        <!--
+        fastdep:
+          datasource:
+            test: #数据源名称可随意取
+              mapper: com.louislivi.fastdep.test.mapper.test #当前数据源对应的mapper目录不能多个数据源相同
+              password: 123456
+              url: jdbc:mysql://127.0.0.1:3306/douyin?serverTimezone=Asia/Chongqing&useLegacyDatetimeCode=false&nullNamePatternMatchesAll=true&zeroDateTimeBehavior=CONVERT_TO_NULL&tinyInt1isBit=false&autoReconnect=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
+              driverClassName: com.mysql.cj.jdbc.Driver
+              username: root
+        #      # 下面为druid连接池的补充设置
+        #      initialSize: 10
+        #      minIdle: 5
+        #      maxActive: 100
+        #      connectionInitSqls: 'set names utf8mb4;'
+            test2: #数据源名称可随意取
+              mapper: com.louislivi.fastdep.test.mapper.test2 #当前数据源对应的mapper目录不能多个数据源相同
+              password: 123456
+              url: jdbc:mysql://127.0.0.1:3306/test2?serverTimezone=Asia/Chongqing&useLegacyDatetimeCode=false&nullNamePatternMatchesAll=true&zeroDateTimeBehavior=CONVERT_TO_NULL&tinyInt1isBit=false&autoReconnect=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
+              driverClassName: com.mysql.cj.jdbc.Driver
+              username: root
+        -->
+        <dependency>
+            <groupId>com.louislivi.fastdep</groupId>
+            <artifactId>fastdep-datasource</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <!--动态数据源-->
+        <!--
+        spring:
+          datasource:
+            #配置hikari连接池
+            hikari:
+              minimum-idle: 4
+              maximum-pool-size: 16
+              connection-timeout: 10000
+              idle-timeout: 30000
+              connection-init-sql: set names utf8mb4
+            #动态数据源配置
+            dynamic:
+              #主数据源
+              primary: a01
+              datasource:
+                #数据源a01
+                a01:
+                  driver-class-name: com.mysql.cj.jdbc.Driver
+                  url: jdbc:mysql://127.0.0.1:3306/a01?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+                  username: root
+                  password: 123456
+                #数据源a02
+                a02:
+                  driver-class-name: com.mysql.cj.jdbc.Driver
+                  url: jdbc:mysql://127.0.0.1:3306/a02?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+                  username: root
+                  password: 123456
+                #数据源a03
+                a03:
+                  driver-class-name: com.mysql.cj.jdbc.Driver
+                  url: jdbc:mysql://127.0.0.1:3306/a03?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+                  username: root
+                  password: 123456
+        -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>2.4.2</version>
+        </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>

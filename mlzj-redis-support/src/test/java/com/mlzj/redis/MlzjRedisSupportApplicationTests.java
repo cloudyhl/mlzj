@@ -238,7 +238,6 @@ public class MlzjRedisSupportApplicationTests {
     public void watchTransaction() {
         redisTemplate.watch("watchKey");
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
-        ops.set
         redisTemplate.multi();
         ops.set("watchKey", "abd");
         redisTemplate.exec();

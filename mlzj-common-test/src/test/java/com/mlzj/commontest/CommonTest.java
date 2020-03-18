@@ -1,5 +1,6 @@
 package com.mlzj.commontest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mlzj.commontest.demo.ArrayAggregate;
 import com.mlzj.commontest.demo.Iteration;
 import com.mlzj.commontest.demo.ListAggregate;
@@ -7,7 +8,6 @@ import com.mlzj.commontest.demo.datastruct.MLzjLinkList;
 import com.mlzj.commontest.demo.datastruct.MLzjTree;
 import com.mlzj.commontest.demo.datastruct.MlzjArrayList;
 import com.mlzj.commontest.demo.datastruct.MlzjStack;
-import com.mlzj.commontest.demo.datastruct.domain.DirectedDijkstraMinRouteResp;
 import com.mlzj.commontest.demo.datastruct.domain.FloydMinRouteResp;
 import com.mlzj.commontest.demo.datastruct.graph.DirectedGraph;
 import com.mlzj.commontest.demo.datastruct.graph.UndirectedGraph;
@@ -18,18 +18,14 @@ import com.mlzj.commontest.demo.datastruct.interfaces.MlzjList;
 import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.observe.*;
 import com.mlzj.commontest.utils.ClassTools;
-import org.apache.commons.codec.cli.Digest;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.Md5Crypt;
-import org.apache.commons.lang3.SerializationUtils;
+import com.mlzj.common.utils.XmlJsonUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.assertj.core.util.Lists;
+import org.json.JSONException;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -138,22 +134,7 @@ public class CommonTest {
 
     }
 
-    @Test
-    public void cloneTest() throws CloneNotSupportedException {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setAge(10);
-        userInfo.setUserName("张三");
-        Dog dog = new Dog();
-        dog.setDogAge(11);
-        dog.setDogName("wangcai");
-        userInfo.setDog(dog);
-        Object clone = userInfo.clone();
-        dog.setDogAge(9);
-        userInfo.setAge(9);
-        System.out.println(clone);
 
-
-    }
 
     @Test
     public void getNum() {
@@ -456,8 +437,8 @@ public class CommonTest {
 
     @Test
     public void encode() throws UnsupportedEncodingException {
-        String s = DigestUtils.md5Hex("J10003000000001111110803192020");
-        System.out.println(s);
+        String gbk = URLEncoder.encode("验证码：6666，打死都不要告诉别人哦！", "GBK");
+        System.out.println(gbk);
     }
 
     @Test
@@ -771,5 +752,88 @@ public class CommonTest {
         System.out.println(mLzjTree);
         System.out.println(mLzjTree.getByCode(2));
     }
+
+    @Test
+    public void testConcurrent(){
+        String str = "0010100200000";
+        String t = str.replaceAll("0+$", "");
+
+        String scity = "371100";
+        String prefix = scity.substring(0,4);
+        String target = "3711300";
+        System.out.println(!(target.length() - target.replaceAll("0+$", "").length() >1));
+    }
+
+    @Test
+    public void setSortString(){
+        String s1 = "2019";
+        String s2 = "2018";
+        String s3 = "2017";
+        Set<String> set = new TreeSet<>();
+        set.add(s3);
+        set.add(s2);
+        set.add(s1);
+        for (String s : set){
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    public void weak(){
+        Date date = new Date();
+        Calendar instance = Calendar.getInstance();
+        instance.setTime(date);
+        instance.add(Calendar.YEAR, -1);
+    }
+
+    @Test
+    public void jsonToXml() throws JSONException, IOException {
+        UserInfo user = new UserInfo();
+        Dog dog = new Dog();
+        dog.setDogAge(1);
+        dog.setDogName("dog");
+        user.setDog(dog);
+        user.setUserName("123");
+        Order order1 = new Order();
+        order1.setId(1);
+        order1.setComment("order1");
+        List<Order> orders = new ArrayList<>();
+        orders.add(order1);
+        Order order2 = new Order();
+        order2.setComment("order2");
+        order2.setId(2);
+        orders.add(order2);
+        user.setOrders(orders);
+        System.out.println(user);
+        String s = XmlJsonUtils.json2xml(JSONObject.toJSONString(user));
+        System.out.println(s);
+        System.out.println("--------------------------");
+        String out = XmlJsonUtils.obj2Xml(user);
+        System.out.println(out);
+
+    }
+
+    @Test
+    public void testStringContains(){
+        String str = "量是,多少,sadsa";
+        System.out.println(str.replace(",","%"));
+    }
+
+    @Test
+    public void localtime(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String endTime = formatter.format(LocalDate.now().plusMonths(1)).concat("-").concat("01 00:00:00");
+        String startTime = formatter.format(LocalDate.now().plusYears(-1)).concat("-").concat("01 00:00:00");
+        System.out.println(startTime);
+        System.out.println(endTime);
+    }
+
+    @Test
+    public void doubleCaculate(){
+        System.out.println((46.7-303.02)/303.02*100);
+        System.out.println((47.4-557.140000)/557.140000*100);
+        System.out.println((3106.3-557.140000)/557.140000*100);
+    }
+
 
 }
