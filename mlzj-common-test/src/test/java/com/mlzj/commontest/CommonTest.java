@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 public class CommonTest {
 
 
+
     @Test
     public void listToSet() {
         List<User> users = new ArrayList<>();
@@ -138,7 +139,6 @@ public class CommonTest {
         System.out.println(LocalDateTime.now().format(dateTimeFormatter));
 
     }
-
 
 
     @Test
@@ -675,7 +675,7 @@ public class CommonTest {
     }
 
     @Test
-    public void testCruxRoute(){
+    public void testCruxRoute() {
         DirectedGraph<String> directedGraph = new DirectedGraph<>();
         List<ArcVertex<String>> vertices = new ArrayList<>();
         vertices.add(directedGraph.addVertex("v0"));
@@ -688,25 +688,25 @@ public class CommonTest {
         vertices.add(directedGraph.addVertex("v7"));
         vertices.add(directedGraph.addVertex("v8"));
         vertices.add(directedGraph.addVertex("v9"));
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(1),3);
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(2),4);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(3),8);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(5),7);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(4),6);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(3),5);
-        directedGraph.addArcEdge(vertices.get(3), vertices.get(4),3);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(6),9);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(7),4);
-        directedGraph.addArcEdge(vertices.get(5), vertices.get(7),6);
-        directedGraph.addArcEdge(vertices.get(6), vertices.get(9),2);
-        directedGraph.addArcEdge(vertices.get(7), vertices.get(8),5);
-        directedGraph.addArcEdge(vertices.get(8), vertices.get(9),3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(1), 3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(2), 4);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3), 8);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5), 7);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4), 6);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3), 5);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(4), 3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6), 9);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7), 4);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(7), 6);
+        directedGraph.addArcEdge(vertices.get(6), vertices.get(9), 2);
+        directedGraph.addArcEdge(vertices.get(7), vertices.get(8), 5);
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(9), 3);
         directedGraph.drawGraph();
         directedGraph.cruxRoute();
     }
 
     @Test
-    public void testDfsDireted(){
+    public void testDfsDireted() {
         DirectedGraph<String> directedGraph = new DirectedGraph<>();
         List<ArcVertex<String>> vertices = new ArrayList<>();
         vertices.add(directedGraph.addVertex("v0"));
@@ -719,19 +719,19 @@ public class CommonTest {
         vertices.add(directedGraph.addVertex("v7"));
         vertices.add(directedGraph.addVertex("v8"));
         vertices.add(directedGraph.addVertex("v9"));
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(1),3);
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(2),4);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(3),8);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(5),7);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(4),6);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(3),5);
-        directedGraph.addArcEdge(vertices.get(3), vertices.get(4),3);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(6),9);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(7),4);
-        directedGraph.addArcEdge(vertices.get(5), vertices.get(7),6);
-        directedGraph.addArcEdge(vertices.get(6), vertices.get(9),2);
-        directedGraph.addArcEdge(vertices.get(7), vertices.get(8),5);
-        directedGraph.addArcEdge(vertices.get(8), vertices.get(9),3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(1), 3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(2), 4);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3), 8);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5), 7);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4), 6);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3), 5);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(4), 3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6), 9);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7), 4);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(7), 6);
+        directedGraph.addArcEdge(vertices.get(6), vertices.get(9), 2);
+        directedGraph.addArcEdge(vertices.get(7), vertices.get(8), 5);
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(9), 3);
         directedGraph.drawGraph();
         List<ArcVertex<String>> vertices1 = directedGraph.dfsErgodic(vertices.get(0));
         List<ArcVertex<String>> vertices2 = directedGraph.bfsErgodic(vertices.get(0));
@@ -740,7 +740,7 @@ public class CommonTest {
     }
 
     @Test
-    public void testTreeAdd(){
+    public void testTreeAdd() {
         MLzjTree<Integer> mLzjTree = new MLzjTree<>();
         mLzjTree.addForAvl(3);
         mLzjTree.addForAvl(2);
@@ -759,18 +759,18 @@ public class CommonTest {
     }
 
     @Test
-    public void testConcurrent(){
+    public void testConcurrent() {
         String str = "0010100200000";
         String t = str.replaceAll("0+$", "");
 
         String scity = "371100";
-        String prefix = scity.substring(0,4);
+        String prefix = scity.substring(0, 4);
         String target = "3711300";
-        System.out.println(!(target.length() - target.replaceAll("0+$", "").length() >1));
+        System.out.println(!(target.length() - target.replaceAll("0+$", "").length() > 1));
     }
 
     @Test
-    public void setSortString(){
+    public void setSortString() {
         String s1 = "2019";
         String s2 = "2018";
         String s3 = "2017";
@@ -778,13 +778,13 @@ public class CommonTest {
         set.add(s3);
         set.add(s2);
         set.add(s1);
-        for (String s : set){
+        for (String s : set) {
             System.out.println(s);
         }
     }
 
     @Test
-    public void weak(){
+    public void weak() {
         Date date = new Date();
         Calendar instance = Calendar.getInstance();
         instance.setTime(date);
@@ -819,13 +819,13 @@ public class CommonTest {
     }
 
     @Test
-    public void testStringContains(){
+    public void testStringContains() {
         String str = "量是,多少,sadsa";
-        System.out.println(str.replace(",","%"));
+        System.out.println(str.replace(",", "%"));
     }
 
     @Test
-    public void localtime(){
+    public void localtime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
         String endTime = formatter.format(LocalDate.now().plusMonths(1)).concat("-").concat("01 00:00:00");
         String startTime = formatter.format(LocalDate.now().plusYears(-1)).concat("-").concat("01 00:00:00");
@@ -834,27 +834,27 @@ public class CommonTest {
     }
 
     @Test
-    public void doubleCaculate(){
-        System.out.println((46.7-303.02)/303.02*100);
-        System.out.println((47.4-557.140000)/557.140000*100);
-        System.out.println((3106.3-557.140000)/557.140000*100);
+    public void doubleCaculate() {
+        System.out.println((46.7 - 303.02) / 303.02 * 100);
+        System.out.println((47.4 - 557.140000) / 557.140000 * 100);
+        System.out.println((3106.3 - 557.140000) / 557.140000 * 100);
     }
 
     @Test
-    public void data(){
+    public void data() {
         String data = "2015/10/1 0:00,0.5;2015/10/1 1:00,0.5;2015/10/1 2:00,0.5;2015/10/1 3:00,0.5;2015/10/1 4:00,0.5;2015/10/1 5:00,0.5;2015/10/1 6:00,0.5;2015/10/1 7:00,0.5;2015/10/1 8:00,0.5;2015/10/1 9:00,0.5;2015/10/1 10:00,0.5;2015/10/1 11:00,0.5;2015/10/1 12:00,0.5;2015/10/1 13:00,0.5;2015/10/1 14:00,0.5;2015/10/1 15:00,0.5;2015/10/1 16:00,0.5;2015/10/1 17:00,0.5;2015/10/1 18:00,0.5;2015/10/1 19:00,0.5;2015/10/1 20:00,0.5;2015/10/1 21:00,0.5;2015/10/1 22:00,0.5;2015/10/1 23:00,0.5;2015/10/2 0:00,0.5;2015/10/2 1:00,0.5;2015/10/2 2:00,0.5;2015/10/2 3:00,0.5;2015/10/2 4:00,0.5;2015/10/2 5:00,1;2015/10/2 6:00,4;2015/10/2 7:00,10;2015/10/2 8:00,15;2015/10/2 9:00,20;2015/10/2 10:00,25;2015/10/2 11:00,32;2015/10/2 12:00,42;2015/10/2 13:00,55;2015/10/2 14:00,81;2015/10/2 15:00,212;2015/10/2 16:00,363;2015/10/2 17:00,330;2015/10/2 18:00,237;2015/10/2 19:00,155;2015/10/2 20:00,100;2015/10/2 21:00,68;2015/10/2 22:00,52;2015/10/2 23:00,44;2015/10/3 0:00,41;2015/10/3 1:00,38;2015/10/3 2:00,36;2015/10/3 3:00,34;2015/10/3 4:00,33;2015/10/3 5:00,32;2015/10/3 6:00,31;2015/10/3 7:00,30;2015/10/3 8:00,29;2015/10/3 9:00,28;2015/10/3 10:00,27;2015/10/3 11:00,26;2015/10/3 12:00,26;2015/10/3 13:00,25;2015/10/3 14:00,24;2015/10/3 15:00,23;2015/10/3 16:00,23;2015/10/3 17:00,22;2015/10/3 18:00,21;2015/10/3 19:00,21;2015/10/3 20:00,20;2015/10/3 21:00,20;2015/10/3 22:00,19;2015/10/3 23:00,18;2015/10/4 0:00,18;2015/10/4 1:00,17;2015/10/4 2:00,17;2015/10/4 3:00,16;2015/10/4 4:00,16;2015/10/4 5:00,15;2015/10/4 6:00,14;2015/10/4 7:00,14;2015/10/4 8:00,14;2015/10/4 9:00,14;2015/10/4 10:00,14;2015/10/4 11:00,14;2015/10/4 12:00,14;2015/10/4 13:00,14;2015/10/4 14:00,14;2015/10/4 15:00,14;2015/10/4 16:00,14;2015/10/4 17:00,14;2015/10/4 18:00,14;2015/10/4 19:00,14;2015/10/4 20:00,14;2015/10/4 21:00,14;2015/10/4 22:00,14;2015/10/4 23:00,14;2015/10/5 0:00,14;2015/10/5 1:00,14;2015/10/5 2:00,14;2015/10/5 3:00,14;2015/10/5 4:00,14;2015/10/5 5:00,14;2015/10/5 6:00,14;2015/10/5 7:00,14;2015/10/5 8:00,14;2015/10/5 9:00,14";
         String[] split = data.split(";");
         for (String s : split) {
             String[] split1 = s.split(",");
-            System.out.println("时间:"+split1[0]+"   数据:" +split1[1]);
+            System.out.println("时间:" + split1[0] + "   数据:" + split1[1]);
         }
     }
 
     @Test
-    public void strCompare(){
+    public void strCompare() {
         String s1 = "238";
         String s2 = "38";
-        System.out.println(StringUtils.compare(s1,s2));
+        System.out.println(StringUtils.compare(s1, s2));
     }
 
     @Test
@@ -874,39 +874,39 @@ public class CommonTest {
 
         Calendar tempEnd = Calendar.getInstance();
         tempEnd.setTime(DateUtils.parseDate(end, "yyyy-MM-dd HH:mm:ss"));
-        result.add(start.substring(0,10));
+        result.add(start.substring(0, 10));
         while (tempStart.before(tempEnd)) {
-            result.add(DateFormatUtils.format(tempStart.getTime(),"yyyy-MM-dd"));
+            result.add(DateFormatUtils.format(tempStart.getTime(), "yyyy-MM-dd"));
             tempStart.add(Calendar.DAY_OF_YEAR, 1);
         }
         return result;
     }
 
     @Test
-    public void testFile(){
+    public void testFile() {
         File file = new File("F:\\2020\\01\\13\\808BC076");
         if (file.exists() && file.isDirectory()) {
             for (String fileName : file.list()) {
                 String s = "2020-03-30 18:00:00";
-                String s1 = s.substring(0, 16).replace(":", "-").replace(" ","-");
+                String s1 = s.substring(0, 16).replace(":", "-").replace(" ", "-");
                 String s2 = fileName.split("\\.")[0];
                 System.out.println(s1);
                 System.out.println(s2);
-                System.out.println(StringUtils.compare(s2,s1) >= 0);
+                System.out.println(StringUtils.compare(s2, s1) >= 0);
             }
 
         }
     }
 
     @Test
-    public void replice(){
+    public void replice() {
         String str = "SELECT a.adnm,b.* FROM (select NoticeId,\n" +
                 "        stuff((select ','+adnm from  (SELECT a.*,b.adnm FROM (SELECT a.* FROM sys_notice_sx a, (SELECT '%'+adcd+'%' as adcd FROM Fn_Adcd_Child('500103001000000')) b WHERE a.adcd like b.adcd) a,(SELECT'%' + adcd + '%' as adcd,adnm FROM AD_CD_B) b WHERE a.adcd like b.adcd) A  \n" +
                 "            where A.NoticeId=B.NoticeId \n" +
                 "            for xml path('')),1,1,'') as adnm   \n" +
                 " from (SELECT a.*,b.adnm FROM (SELECT a.* FROM sys_notice_sx a, (SELECT '%'+adcd+'%' as adcd FROM Fn_Adcd_Child('500103001000000')) b WHERE a.adcd like b.adcd) a,(SELECT'%' + adcd + '%' as adcd,adnm FROM AD_CD_B) b WHERE a.adcd like b.adcd) B   \n" +
                 " group by B.NoticeId  ) A , (SELECT a.* FROM sys_notice_sx a, (SELECT '%'+adcd+'%' as adcd FROM Fn_Adcd_Child('500103001000000')) b WHERE a.adcd like b.adcd AND ReleaseDate <= ? AND ReleaseDate > ?) B WHERE A.NoticeId = b.NoticeId ORDER BY B.ReleaseDate DESC";
-        System.out.println(str.replace("AND ReleaseDate <= ?",""));
+        System.out.println(str.replace("AND ReleaseDate <= ?", ""));
     }
 
     @Test
@@ -925,15 +925,36 @@ public class CommonTest {
     }
 
     @Test
-    public void testObjSize(){
+    public void testObjSize() {
         Object[] objects = this.objSize(1, 2, 3, 4, 5);
         for (Object o : objects) {
             System.out.println(o);
         }
     }
 
-    public Object[] objSize(Object... obj){
+    public Object[] objSize(Object... obj) {
         return obj;
     }
+
+
+    @Test
+    public void testRemoveOnForEach() {
+        Set<String> list = new HashSet<>();
+        list.add("6.045");
+        list.add("6.005");
+        list.add("6.813");
+        list.clear();
+        Iterator<String> integerIterator = list.iterator();
+        while (integerIterator.hasNext()) {
+
+            if (integerIterator.next().startsWith("6.")){
+                list.remove(integerIterator.next());
+            }
+        }
+        System.out.println(list);
+    }
+
+
+
 
 }

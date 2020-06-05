@@ -1,9 +1,12 @@
 package com.mlzj.commontest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mlzj.commontest.dao.OrderBeanDao;
+import com.mlzj.commontest.dao.OrderDao;
+import com.mlzj.commontest.dao.OrderItemDao;
 import com.mlzj.commontest.demo.DemoExecute;
 import com.mlzj.commontest.event.TestEvent;
-import com.mlzj.commontest.model.Order;
-import com.mlzj.commontest.model.User;
+import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.proxy.handler.CatProxyHandler;
 import com.mlzj.commontest.proxy.interfaces.Animal;
 import com.mlzj.commontest.proxy.interfaces.Dynamic;
@@ -62,6 +65,12 @@ public class MlzjCommonTestApplicationTests {
     private UserService userService;
     @Resource
     private DemoExecute demoExecute;
+
+    @Resource
+    private OrderBeanDao orderBeanDao;
+
+    @Resource
+    private OrderItemDao orderItemDao;
 
     @Test
     public void contextLoads() throws InterruptedException {
@@ -193,4 +202,28 @@ public class MlzjCommonTestApplicationTests {
             System.out.println(className);
         }
     }
+
+    @Test
+    public void testJoin(){
+        OrderBean orderBean = new OrderBean();
+        orderBean.setOrderBn("23456");
+        orderBean.setName("王阳");
+        orderBeanDao.insert(orderBean);
+        OrderItemBean orderItemBean = new OrderItemBean();
+        orderItemBean.setOrderBn("23456");
+        orderItemBean.setPrice(33);
+        orderItemDao.insert(orderItemBean);
+        OrderItemBean orderItemBean1 = new OrderItemBean();
+        orderItemBean1.setOrderBn("23456");
+        orderItemBean1.setPrice(34);
+        orderItemDao.insert(orderItemBean1);
+    }
+
+    @Test
+    public void testPage(){
+        Page<Orders> page = new Page<>(1,10);
+        orderBeanDao.selectOrders(page);
+        System.out.println(page);
+    }
+
 }
