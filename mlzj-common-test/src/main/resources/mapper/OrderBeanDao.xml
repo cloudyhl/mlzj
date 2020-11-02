@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlzj.commontest.dao.OrderBeanDao">
+
+
+    <resultMap id="orders" type="com.mlzj.commontest.model.Orders">
+        <id column="order_bn" />
+        <result property="orderBn" column="order_bn"/>
+        <result property="name" column="name"/>
+        <collection property="orderItems" column="order_bn" ofType="com.mlzj.commontest.model.OrderItemBean">
+            <result property="orderBn" column="order_bn"/>
+            <result property="price" column="price"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectOrders" resultMap="orders">
+        SELECT A.id as ID, A.order_bn,A.name, B.price as price FROM  orders A LEFT JOIN order_item B ON A.ORDER_BN = B.ORDER_BN
+    </select>
+</mapper>
