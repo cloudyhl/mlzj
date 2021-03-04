@@ -110,4 +110,22 @@ public class Tests {
         System.out.println(bigDecimal);
     }
 
+    @Test
+    public void testStringLength(){
+        String str = "NRCBANK@21+09171232132132@waaddd1+admin@110027000";
+        System.out.println(str.length());
+        System.out.println("sdsadssdsadsasdsas".length());
+        System.out.println("sdsadsadasdsadsadasdasdsa".length());
+        System.out.println("sdsasdddddddddddddddddddd".length());
+        System.out.println("NRCBANK@+@+@APP_SEQ_NO".length());
+
+    }
+
+    @Test
+    public void testString(){
+        String user1 = "entCert1";
+        String user2 = "entCert4";
+        System.out.println(StringUtils.compare(user1, user2));
+    }
+
 }
