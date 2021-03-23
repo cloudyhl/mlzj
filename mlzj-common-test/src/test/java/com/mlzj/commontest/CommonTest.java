@@ -7,7 +7,6 @@ import com.mlzj.commontest.demo.datastruct.MLzjLinkList;
 import com.mlzj.commontest.demo.datastruct.MLzjTree;
 import com.mlzj.commontest.demo.datastruct.MlzjArrayList;
 import com.mlzj.commontest.demo.datastruct.MlzjStack;
-import com.mlzj.commontest.demo.datastruct.domain.DirectedDijkstraMinRouteResp;
 import com.mlzj.commontest.demo.datastruct.domain.FloydMinRouteResp;
 import com.mlzj.commontest.demo.datastruct.graph.DirectedGraph;
 import com.mlzj.commontest.demo.datastruct.graph.UndirectedGraph;
@@ -18,30 +17,31 @@ import com.mlzj.commontest.demo.datastruct.interfaces.MlzjList;
 import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.observe.*;
 import com.mlzj.commontest.utils.ClassTools;
-import org.apache.commons.codec.cli.Digest;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
+import javax.sound.midi.Soundbank;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class CommonTest {
@@ -689,7 +689,7 @@ public class CommonTest {
     }
 
     @Test
-    public void testCruxRoute(){
+    public void testCruxRoute() {
         DirectedGraph<String> directedGraph = new DirectedGraph<>();
         List<ArcVertex<String>> vertices = new ArrayList<>();
         vertices.add(directedGraph.addVertex("v0"));
@@ -702,25 +702,25 @@ public class CommonTest {
         vertices.add(directedGraph.addVertex("v7"));
         vertices.add(directedGraph.addVertex("v8"));
         vertices.add(directedGraph.addVertex("v9"));
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(1),3);
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(2),4);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(3),8);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(5),7);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(4),6);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(3),5);
-        directedGraph.addArcEdge(vertices.get(3), vertices.get(4),3);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(6),9);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(7),4);
-        directedGraph.addArcEdge(vertices.get(5), vertices.get(7),6);
-        directedGraph.addArcEdge(vertices.get(6), vertices.get(9),2);
-        directedGraph.addArcEdge(vertices.get(7), vertices.get(8),5);
-        directedGraph.addArcEdge(vertices.get(8), vertices.get(9),3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(1), 3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(2), 4);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3), 8);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5), 7);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4), 6);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3), 5);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(4), 3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6), 9);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7), 4);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(7), 6);
+        directedGraph.addArcEdge(vertices.get(6), vertices.get(9), 2);
+        directedGraph.addArcEdge(vertices.get(7), vertices.get(8), 5);
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(9), 3);
         directedGraph.drawGraph();
         directedGraph.cruxRoute();
     }
 
     @Test
-    public void testDfsDireted(){
+    public void testDfsDireted() {
         DirectedGraph<String> directedGraph = new DirectedGraph<>();
         List<ArcVertex<String>> vertices = new ArrayList<>();
         vertices.add(directedGraph.addVertex("v0"));
@@ -733,19 +733,19 @@ public class CommonTest {
         vertices.add(directedGraph.addVertex("v7"));
         vertices.add(directedGraph.addVertex("v8"));
         vertices.add(directedGraph.addVertex("v9"));
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(1),3);
-        directedGraph.addArcEdge(vertices.get(0), vertices.get(2),4);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(3),8);
-        directedGraph.addArcEdge(vertices.get(2), vertices.get(5),7);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(4),6);
-        directedGraph.addArcEdge(vertices.get(1), vertices.get(3),5);
-        directedGraph.addArcEdge(vertices.get(3), vertices.get(4),3);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(6),9);
-        directedGraph.addArcEdge(vertices.get(4), vertices.get(7),4);
-        directedGraph.addArcEdge(vertices.get(5), vertices.get(7),6);
-        directedGraph.addArcEdge(vertices.get(6), vertices.get(9),2);
-        directedGraph.addArcEdge(vertices.get(7), vertices.get(8),5);
-        directedGraph.addArcEdge(vertices.get(8), vertices.get(9),3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(1), 3);
+        directedGraph.addArcEdge(vertices.get(0), vertices.get(2), 4);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(3), 8);
+        directedGraph.addArcEdge(vertices.get(2), vertices.get(5), 7);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(4), 6);
+        directedGraph.addArcEdge(vertices.get(1), vertices.get(3), 5);
+        directedGraph.addArcEdge(vertices.get(3), vertices.get(4), 3);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(6), 9);
+        directedGraph.addArcEdge(vertices.get(4), vertices.get(7), 4);
+        directedGraph.addArcEdge(vertices.get(5), vertices.get(7), 6);
+        directedGraph.addArcEdge(vertices.get(6), vertices.get(9), 2);
+        directedGraph.addArcEdge(vertices.get(7), vertices.get(8), 5);
+        directedGraph.addArcEdge(vertices.get(8), vertices.get(9), 3);
         directedGraph.drawGraph();
         List<ArcVertex<String>> vertices1 = directedGraph.dfsErgodic(vertices.get(0));
         List<ArcVertex<String>> vertices2 = directedGraph.bfsErgodic(vertices.get(0));
@@ -754,7 +754,7 @@ public class CommonTest {
     }
 
     @Test
-    public void testTreeAdd(){
+    public void testTreeAdd() {
         MLzjTree<Integer> mLzjTree = new MLzjTree<>();
         mLzjTree.addForAvl(3);
         mLzjTree.addForAvl(2);
@@ -770,6 +770,134 @@ public class CommonTest {
 
         System.out.println(mLzjTree);
         System.out.println(mLzjTree.getByCode(2));
+    }
+
+    @Test
+    public void testReadList() throws InterruptedException {
+        Thread thread = new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+                System.out.println("1111");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        //thread.join();
+        System.out.println("go");
+    }
+
+    @Test
+    public void main() throws Exception {
+// sleepThread???????
+        Thread sleepThread = new Thread(new SleepRunner(), "SleepThread");
+        sleepThread.setDaemon(true);
+// busyThread?????
+        Thread busyThread = new Thread(new BusyRunner(), "BusyThread");
+        busyThread.setDaemon(true);
+        sleepThread.start();
+        busyThread.start();
+// ??5???sleepThread?busyThread????
+        TimeUnit.SECONDS.sleep(5);
+        sleepThread.interrupt();
+        System.out.println(busyThread.isInterrupted());
+        busyThread.interrupt();
+        System.out.println("SleepThread interrupted is " + sleepThread.isInterrupted());
+        System.out.println("BusyThread interrupted is " + busyThread.isInterrupted());
+// ??sleepThread?busyThread????
+        TimeUnit.SECONDS.sleep(2);
+    }
+
+    class SleepRunner implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class BusyRunner implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+            }
+        }
+    }
+
+    @Test
+    public void testHashMapForManyThread() throws InterruptedException {
+        final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>(2);
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10000; i++) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            map.put(UUID.randomUUID().toString(), "");
+                        }
+                    }, "ftf" + i).start();
+                }
+            }
+        }, "ftf");
+        t.start();
+        t.join();
+    }
+
+    @Test
+    public void concurrentList() throws ParseException {
+        String path = "F:\\new";
+        File base= new File(path);
+        if (base.isDirectory()){
+            for (String s : base.list()) {
+                System.out.println(s);
+            }
+        }
+        String fileName = "2019-01-13-17-00.jpg";
+        System.out.println(fileName.split("\\.")[0]);
+        System.out.println(base.exists());
+
+        List<String> betweenDates = getBetweenDates("2019-01-01 08:00:00", "2020-01-01 08:00:00");
+        List<String> newDates = new ArrayList<>();
+        betweenDates.forEach(item -> {
+            newDates.add(item.replace("-", "\\"));
+        });
+        System.out.println(newDates);
+
+    }
+
+    private List<String> getBetweenDates(String start, String end) throws ParseException {
+
+        List<String> result = new ArrayList<>();
+        Calendar tempStart = Calendar.getInstance();
+        tempStart.setTime(DateUtils.parseDate(start, "yyyy-MM-dd HH:mm:ss"));
+        tempStart.add(Calendar.DAY_OF_YEAR, 1);
+
+        Calendar tempEnd = Calendar.getInstance();
+        tempEnd.setTime(DateUtils.parseDate(end, "yyyy-MM-dd HH:mm:ss"));
+        result.add(start.substring(0,10));
+        while (tempStart.before(tempEnd)) {
+            result.add(DateFormatUtils.format(tempStart.getTime(),"yyyy-MM-dd"));
+            tempStart.add(Calendar.DAY_OF_YEAR, 1);
+        }
+        return result;
+    }
+
+    @Test
+    public void listStringTest(){
+        List<Integer> listString= Lists.newArrayList(1,2,3);
+        double sum = listString.stream().mapToDouble(x -> x).sum();
+        System.out.println(sum);
+        System.out.println(listString);
+        final User s = new User();
+        listString.forEach(item-> s.setAddress("1"));
+        System.out.println(s);
+        System.out.println(StringUtils.compare("2020-01-15-00-00", "2020-01-15-00-40"));
     }
 
 }
