@@ -1,16 +1,12 @@
 package com.mlzj.commontest;
 
 
-import com.sun.deploy.net.HttpUtils;
-import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
-import sun.net.www.http.HttpClient;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
