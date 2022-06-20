@@ -19,8 +19,13 @@ import com.mlzj.commontest.demo.datastruct.graph.auxiliary.Vertex;
 import com.mlzj.commontest.demo.datastruct.interfaces.MlzjList;
 import com.mlzj.commontest.model.*;
 import com.mlzj.commontest.observe.*;
+import com.mlzj.commontest.service.impl.UserServiceImpl;
 import com.mlzj.commontest.utils.ClassTools;
 import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
+import io.swagger.models.auth.In;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -1070,22 +1075,12 @@ public class CommonTest {
 
     @Test
     public void testRemoveOnForEach() {
-        Set<String> list = new HashSet<>();
-        list.add("6.045");
-        list.add("6.005");
-        list.add("6.813");
-        list.clear();
-        Iterator<String> integerIterator = list.iterator();
-        while (integerIterator.hasNext()) {
 
-            if (integerIterator.next().startsWith("6.")){
-                list.remove(integerIterator.next());
-            }
-        }
-        System.out.println(list);
     }
 
+    public static void main(String[] args) {
 
+    }
 
 
 }

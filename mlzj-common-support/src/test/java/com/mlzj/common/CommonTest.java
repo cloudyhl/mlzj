@@ -162,8 +162,8 @@ public class CommonTest {
 
     @Test
     public void getGeoLine(){
-        GlobalCoordinates geo1 = new GlobalCoordinates(34.233636, 108.888399);
-        GlobalCoordinates geo2 = new GlobalCoordinates(30.58372, 104.07447);
+        GlobalCoordinates geo1 = new GlobalCoordinates(39.908396, 116.57566);
+        GlobalCoordinates geo2 = new GlobalCoordinates(39.90851, 116.575898);
         double distanceMeter = getDistanceMeter(geo1, geo2, Ellipsoid.Sphere);
         System.out.println((int)distanceMeter/1000);
 
