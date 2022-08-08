@@ -1,0 +1,10 @@
+server:
+  port: 8889
+  tomcat:
+    max-threads: 300
+    accept-count: 100
+    max-connections: 8192
+spring:
+  elasticsearch:
+    rest:
+      uris: localhost:9200
