@@ -1,0 +1,9 @@
+hadoop:
+  hdfs:
+    default-fs: hdfs://10.220.184.231:10001
+    hdfsName: root
+spring:
+  servlet:
+    multipart:
+      max-request-size: 2048MB #设置总上传数据总大小
+      max-file-size: 2048MB #

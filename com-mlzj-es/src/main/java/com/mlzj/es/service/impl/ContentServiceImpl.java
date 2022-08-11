@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -64,6 +65,7 @@ public class ContentServiceImpl implements ContentService {
         NativeSearchQuery build = new NativeSearchQueryBuilder().withQuery(multiMatchQueryBuilder).withPageable(pageRequest).build();
         //searchAfter 只能从第一页开始 查询每页数目 之后需要指定上一次返回的最后一条数据
         MultiMatchQueryBuilder multiMatchQueryBuilder1 = QueryBuilders.multiMatchQuery(queryStr, "content", "title");
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         searchSourceBuilder.query(multiMatchQueryBuilder1);
         searchSourceBuilder.sort("sortId.keyword", SortOrder.ASC);
         searchSourceBuilder.from(0).size(100);
