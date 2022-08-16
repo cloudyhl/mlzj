@@ -24,6 +24,7 @@ import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.mapreduce.Job;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
