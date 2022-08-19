@@ -1,0 +1,5 @@
+server:
+  port: 9313
+hbase:
+  zookeeper:
+    quorum: localhost:2181

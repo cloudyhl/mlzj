@@ -104,9 +104,8 @@ public class HDFSController {
     @ApiOperation(httpMethod = "POST", value = "文件列表")
     @RequestMapping(value = "/listFile", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public  List<Map<String, String>> listFile(
-            @RequestBody @ApiParam(name = "JSON对象", value = "json格式对象", required = true) JSONObject entity) {
-        List<Map<String, String>> list = service.listFile("/testHdfs");
+    public  List<Map<String, String>> listFile(@RequestParam String path) {
+        List<Map<String, String>> list = service.listFile(path);
         return list;
     }
 
