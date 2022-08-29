@@ -124,4 +124,11 @@ public class Tests {
         System.out.println(StringUtils.compare(user1, user2));
     }
 
+
+    @Test
+    public void replaceAllHtmlTag() {
+        String str = "<p>\t<span style=\"font-size: 14px; color: rgb(51, 51, 51);\">史记》在流传过程中，也窜入了其他文字，失去原貌。今本《史记》中有些篇章或者有些段落不是司马迁所撰写，明显有补窜痕迹，如《司马相如列传》有扬雄以为靡丽之赋劝百而讽一之语，《公孙弘传》中有汉平帝元始中诏赐弘子孙爵语，《贾谊传》中有贾嘉最好学、至孝昭时列为九卿语，等等。而对于《史记》缺篇的补写，裴骃在《太史公自序》末注文中引三国时张晏的话，说《史记》亡十篇，“元、成之间，褚先生补续，作《武帝纪》《三王世家》《龟策》《日者列传》，言辞鄙陋，非迁本意也。”认为褚少孙补了亡佚十篇中的四篇。张守节《龟策列传·正义》则认为褚少孙补十篇，赵翼《廿二史札记》卷一也认为褚少孙补十篇。但是，据《汉书·艺文志》《论衡·须颂篇》《后汉书·班彪传》注及《史通·古今正史篇》等，西汉后期补续《史记》的多达17家。张大可认为真正补续的只有褚少孙一人，其余均为续写西汉史，大都单独别行，与褚少孙续补附骥《史记》而行不同</span>\t<span style=\"color: rgb(51, 102, 204); font-size: 12px;\">&nbsp;[17]</span>\t<span style=\"color: rgb(19, 110, 194);\">&nbsp;</span>\t<span style=\"font-size: 14px; color: rgb(51, 51, 51);\">&nbsp;。赵生群则根据有关资料，认为真正补续《史记》的除褚少孙之外，还有冯商，《汉书·艺文志》对冯商所续《太史公》保留七篇，当是补亡之作；删除四篇，应是续《史记》之文</span></p><p><span style=\"font-size: 14px; color: rgb(51, 51, 51);\"><span class=\"ql-cursor\">\uFEFF</span></span><img src=\"https://testdfs.shuhaisc.com/group2/M00/02/77/rBbjV2MEsHmELzRvAAAAAHDB5Zs286.jpg\"></p>";
+        String s = str.replaceAll("<[.[^<]]*>", "");
+        System.out.println(s);
+    }
 }

@@ -2,6 +2,7 @@ package com.mlzj.hbase.controller;
 
 import com.mlzj.hbase.dto.UserEntity;
 import com.mlzj.hbase.service.HbaseService;
+import com.mlzj.hbase.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class HbaseController {
 
     @Resource
     private HbaseService hbaseService;
+
+    @Resource
+    private UserService userService;
 
     @ApiOperation(value = "增加用户")
     @PostMapping("/insertUser")
@@ -57,5 +61,13 @@ public class HbaseController {
     @GetMapping("/findByName")
     public List<UserEntity> findByName(@RequestParam String name) throws IOException {
         return hbaseService.findUserByPrefixName(name);
+    }
+
+
+    @ApiOperation(value = "mybatis查询所有数据")
+    @GetMapping("/getAll")
+    public List<UserEntity> getAll() throws IOException {
+        List<UserEntity> list = userService.list();
+        return userService.list();
     }
 }

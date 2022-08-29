@@ -1,0 +1,14 @@
+package com.mlzj.hbase.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mlzj.hbase.dto.UserEntity;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * @author yhl
+ * @date 2022/8/29
+ */
+@Mapper
+public interface UserEntityMapper extends BaseMapper<UserEntity> {
+
+}

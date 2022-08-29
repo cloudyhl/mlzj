@@ -5,3 +5,5 @@ spring:
     driver-class-name: org.apache.hive.jdbc.HiveDriver
     url: jdbc:hive2://10.220.184.231:10013/default
     type: com.alibaba.druid.pool.DruidDataSource
+#    data-username: yhl
+#    data-password: root

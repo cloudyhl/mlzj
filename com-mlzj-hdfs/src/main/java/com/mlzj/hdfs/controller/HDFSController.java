@@ -93,11 +93,10 @@ public class HDFSController {
         return "OK";
     }
 
-    @ApiOperation(httpMethod = "POST", value = "读取文件内容")
-    @RequestMapping(value = "/readFileContent", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+    @ApiOperation(value = "读取文件内容")
+    @RequestMapping(value = "/readFileContent", method = { RequestMethod.GET }, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String readFileContent(
-            @RequestBody @ApiParam(name = "JSON对象", value = "json格式对象", required = true) String path) {
+    public String readFileContent(@RequestParam String path) {
         return service.readFileContent(path);
     }
 
@@ -152,8 +151,8 @@ public class HDFSController {
     }
 
 
-    @ApiOperation(httpMethod = "POST", value = "下载文件")
-    @RequestMapping(value = "/downLoadFile", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+    @ApiOperation(value = "下载文件")
+    @RequestMapping(value = "/downLoadFile", method = { RequestMethod.GET }, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public void downLoadFile(@RequestParam String fileUrl, HttpServletResponse response) throws IOException {
         service.downLoadFile(fileUrl, response);

@@ -1,6 +1,6 @@
 package com.mlzj.hbase.dto;
 
-import lombok.Builder;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -8,11 +8,12 @@ import lombok.Data;
  * @date 2022/8/18
  */
 @Data
+@TableName("\"hbase_test\".\"user\"")
 public class UserEntity {
 
-    private String userName;
+    private String id;
 
-    private String userId;
+    private String userName;
 
     private String birthday;
 

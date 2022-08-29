@@ -3,3 +3,12 @@ server:
 hbase:
   zookeeper:
     quorum: localhost:2181
+#spring:
+#  datasource:
+#    tomcat:
+#      connection-properties: phoenix.schema.isNamespaceMappingEnabled=true
+spring:
+  datasource:
+    driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
+    url: jdbc:phoenix:localhost:2181
+    type: com.alibaba.druid.pool.DruidDataSource
