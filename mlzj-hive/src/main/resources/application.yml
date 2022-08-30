@@ -5,5 +5,9 @@ spring:
     driver-class-name: org.apache.hive.jdbc.HiveDriver
     url: jdbc:hive2://10.220.184.231:10013/default
     type: com.alibaba.druid.pool.DruidDataSource
-#    data-username: yhl
-#    data-password: root
+    druid:
+      username: yhl
+      password: root
+      initial-size: 30
+      max-active: 120
+      max-pool-prepared-statement-per-connection-size: 120
