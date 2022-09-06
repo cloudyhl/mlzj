@@ -8,7 +8,7 @@ import lombok.Data;
  * @date 2022/8/15
  */
 @Data
-@TableName("word")
+@TableName("t_word")
 public class Word {
 
     private String words;

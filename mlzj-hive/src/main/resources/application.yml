@@ -8,6 +8,3 @@ spring:
     druid:
       username: yhl
       password: root
-      initial-size: 30
-      max-active: 120
-      max-pool-prepared-statement-per-connection-size: 120

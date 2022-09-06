@@ -1,5 +1,7 @@
 package com.mlzj.hive.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mlzj.hive.entity.Word;
 import com.mlzj.hive.service.WordService;
@@ -39,9 +41,20 @@ public class HiveController {
     @PostMapping("/save")
     public void save() {
         Word word = new Word();
-        word.setWords("nihao nihao hahahaha");
+        word.setWords("你好");
         wordService.save(word);
     }
+
+    @GetMapping("/getStr")
+    public List<Word> getStr(@RequestParam String str) {
+        long l = System.currentTimeMillis();
+        LambdaQueryWrapper<Word> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.like(Word::getWords, str);
+        List<Word> list = wordService.list(queryWrapper);
+        log.info("用时------------------------{}", System.currentTimeMillis() - l);
+        return list;
+    }
+
 
     @ApiOperation(value = "从HDFS读取数据覆盖原表数据")
     @PostMapping("/loadPathOverwrite")

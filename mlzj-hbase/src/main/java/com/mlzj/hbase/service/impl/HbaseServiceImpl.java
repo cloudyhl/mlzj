@@ -100,7 +100,7 @@ public class HbaseServiceImpl implements HbaseService {
             table = hbaseConnection.getTable(TableName.valueOf("hbase_test:user"));
             Scan scan = new Scan();
             ResultScanner rs = table.getScanner(scan);
-            Result result = null;
+            Result result;
             while ((result =rs.next())!= null){
                 UserEntity userEntity = new UserEntity();
                 userEntity.setId(new String(result.getRow()));

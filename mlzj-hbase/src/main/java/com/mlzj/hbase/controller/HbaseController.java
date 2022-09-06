@@ -35,7 +35,7 @@ public class HbaseController {
     @ApiOperation(value = "增加用户")
     @PostMapping("/insertUser")
     public void insertUser(@RequestBody UserEntity userEntity) {
-        hbaseService.insert(userEntity);
+        userService.insertUser(userEntity);
     }
 
 

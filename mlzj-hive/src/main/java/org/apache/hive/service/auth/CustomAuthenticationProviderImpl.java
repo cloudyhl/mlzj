@@ -6,6 +6,15 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.conf.HiveConf;
 import org.slf4j.Logger;
 
+/**
+ * 用于hive认证使用配置HIVE
+ *     <property>
+ *         <name>hive.server2.authentication</name>
+ *         <value>CUSTOM</value>
+ *     </property>
+ *         <name>HIVE_SERVER2_CUSTOM_AUTHENTICATION_CLASS</name>
+ * 	       <value>org.apache.hive.service.auth.CustomAuthenticationProviderImpl</value>
+ */
 public class CustomAuthenticationProviderImpl implements org.apache.hive.service.auth.PasswdAuthenticationProvider {
 
     private final Logger LOG = org.slf4j.LoggerFactory.getLogger(CustomAuthenticationProviderImpl.class);
