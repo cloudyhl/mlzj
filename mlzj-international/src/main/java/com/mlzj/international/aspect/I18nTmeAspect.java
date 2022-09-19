@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +53,7 @@ public class I18nTmeAspect {
         log.info("[I18nDateAspect][dealDateParamByTimeZone] timeZone param in header is: {}.", timeZone);
         Object resultData = proceedingJoinPoint.proceed();
         //判断没有传时区和东八区时间不需要转换
-        if (StringUtils.isBlank(timeZone) || 8 == TimeZone.getTimeZone("Asia/Shanghai").getRawOffset()) {
+        if (StringUtils.isBlank(timeZone) || 8 * 60 * 60 * 1000 == TimeZone.getTimeZone(timeZone).getRawOffset()) {
             return resultData;
         }
         if (resultData == null) {
@@ -70,23 +71,30 @@ public class I18nTmeAspect {
      * @throws IllegalAccessException
      */
     private void timeCheck(Object objData, String timeZone) throws InvocationTargetException, IllegalAccessException, ParseException {
-        if (ignoreSet.contains(objData.getClass().getSimpleName())) {
-            return;
-        }
-        if (objData instanceof Collection) {
+        if (objData!= null && objData instanceof Collection) {
             for (Object objDatum : (Collection) objData) {
                 this.baseCheck(objDatum, timeZone);
             }
             return;
         }
-        if (objData instanceof IPage) {
+        if (objData!= null && objData instanceof Map) {
+            for (Entry<Object, Object> entry : ((Map<Object, Object>) objData).entrySet()) {
+                Object o = this.baseCheck(entry.getValue(), timeZone);
+                if (o != null) {
+                    entry.setValue(o);
+                }
+            }
+            return;
+        }
+        if (objData!= null && objData instanceof IPage) {
             this.baseCheck(objData, timeZone);
             return;
         }
-        if (objData.getClass().getName().startsWith(PACKAGE_START)) {
+        if (objData!= null && objData.getClass().getName().startsWith(PACKAGE_START)) {
             this.baseCheck(objData, timeZone);
             return;
         }
+
     }
 
     /**
@@ -96,10 +104,34 @@ public class I18nTmeAspect {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    private void baseCheck(Object objData, String timeZone) throws InvocationTargetException, IllegalAccessException, ParseException {
+    private Object baseCheck(Object objData, String timeZone) throws InvocationTargetException, IllegalAccessException, ParseException {
+        if (objData == null) {
+            return null;
+        }
+        if (objData!= null && objData instanceof Collection) {
+            for (Object objDatum : (Collection) objData) {
+                this.baseCheck(objDatum, timeZone);
+            }
+            return null;
+        }
+        if (objData!= null && objData instanceof Map) {
+            for (Entry<Object, Object> entry : ((Map<Object, Object>) objData).entrySet()) {
+                Object o = this.baseCheck(entry.getValue(), timeZone);
+                if (o != null) {
+                    entry.setValue(o);
+                }
+            }
+            return null;
+        }
         Class<?> aClass = objData.getClass();
         Field[] fields = aClass.getDeclaredFields();
         Map<String, Method> methodMap = this.getMethodMap(aClass);
+        if (objData != null && objData instanceof Date) {
+            return this.dateToTimeDate((Date)objData, timeZone);
+        }
+        if (objData != null && objData instanceof String && isDateString((String) objData)) {
+            return this.stringToTimeStr((String) objData, timeZone);
+        }
         for (Field field : fields) {
             String getMethodName = GET_METHOD + this.toUpperCaseFist(field.getName());
             Method getMethod = methodMap.get(getMethodName);
@@ -113,16 +145,16 @@ public class I18nTmeAspect {
                 method.invoke(objData, this.dateToTimeDate(time, timeZone));
                 continue;
             }
-            if (field.getType().equals(String.class) && isDateString((String) getMethod.invoke(objData))) {
+            if (field.getType().equals(String.class) && getMethod != null && isDateString((String) getMethod.invoke(objData))) {
                 String targetTimeString = this.stringToTimeStr((String) getMethod.invoke(objData), timeZone);
                 method.invoke(objData, targetTimeString);
                 continue;
             }
-            if (getMethod != null) {
+            if (getMethod != null && !ignoreSet.contains(getMethod.invoke(objData).getClass().getSimpleName())) {
                 this.timeCheck(getMethod.invoke(objData), timeZone);
             }
-
         }
+        return null;
     }
 
     /**
@@ -131,12 +163,9 @@ public class I18nTmeAspect {
      * @param targetTimeZone 目标时区的时间
      * @return 目标时区的时间
      */
-    private Date dateToTimeDate(Date time, String targetTimeZone) {
-        //获取源时区时间相对的GMT时间
-        Long sourceRelativelyGMT = time.getTime() - TimeZone.getTimeZone("Asia/Shanghai").getRawOffset();
-        //GMT时间+目标时间时区的偏移量获取目标时间
-        Long targetTime = sourceRelativelyGMT + TimeZone.getTimeZone(targetTimeZone).getRawOffset();
-        return new Date(targetTime);
+    private Date dateToTimeDate(Date time, String targetTimeZone) throws ParseException {
+        String dateStr = DateFormatUtils.format(time.getTime(), DATE_FORMAT_PATTERN, TimeZone.getTimeZone(targetTimeZone));
+        return DateUtils.parseDate(dateStr, DATE_FORMAT_PATTERN);
     }
 
     private String stringToTimeStr(String str, String targetTimeZone) throws ParseException {

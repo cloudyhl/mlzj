@@ -1,0 +1,55 @@
+server:
+  port: 8887
+  tomcat:
+    max-threads: 300
+    accept-count: 100
+    max-connections: 8192
+spring:
+  datasource:
+    druid:
+      username: root
+      password: root
+      max-active: 32
+      initial-size: 20
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  shardingsphere:
+    props:
+      sql:
+        show: true
+    datasource:
+      ds0:
+        driver-class-name=: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        username: root
+        password: root
+        url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+      ds1:
+        driver-class-name=: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        username: root
+        password: root
+        url: jdbc:mysql://127.0.0.1:3306/test1?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+      names: ds0,ds1
+    sharding:
+      default-data-source-name: ds0
+      tables:
+        t_user:
+          database-strategy:
+            inline:
+              algorithm-expression: ds$->{id % 2}
+              sharding-column: id
+        t_dept:
+          actual-data-nodes: ds0.t_dept_$->{0..1}
+          table-strategy:
+            inline:
+              algorithm-expression: t_dept_$->{id % 2}
+              sharding-column: id
+#              shardingColumn: id
+#              preciseAlgorithmClassName: com.mlzj.sharding.jdbc.config.MyPreciseShardingAlgorithm
+#    不要使用position作为字段名 否则导致无法切分表
+
+
