@@ -16,8 +16,6 @@
 
 
     <modules>
-        <module>mlzj-security</module>
-        <module>mlzj-oauth</module>
         <module>mlzj-jpa-support</module>
         <module>mlzj-mybatis-support</module>
         <module>mlzj-rocketmq-support</module>
