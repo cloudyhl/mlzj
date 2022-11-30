@@ -2,7 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <groupId>com.mlzj</groupId>
+    <parent>
+        <groupId>com.mlzj</groupId>
+        <artifactId>mlzj-cloud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../mlzj-cloud</relativePath>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     <version>0.0.1-SNAPSHOT</version>
     <artifactId>mlzj-cloud-common</artifactId>
@@ -12,6 +17,10 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>26.0-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
