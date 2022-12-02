@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 标准化通用转发feign
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public interface DynamicFeignClient {
 
-    @GetMapping("{path}")
-    Object get(@PathVariable("path") String path, @RequestParam String id);
+    @GetMapping("{path}?{param}")
+    Object get(@PathVariable("path") String path, @PathVariable("param") String param);
 
 
     @PostMapping("{path}")

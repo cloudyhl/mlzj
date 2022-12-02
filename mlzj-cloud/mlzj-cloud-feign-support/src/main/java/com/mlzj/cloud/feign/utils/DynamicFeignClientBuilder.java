@@ -15,7 +15,7 @@ public class DynamicFeignClientBuilder {
     }
 
     public DynamicFeignClient getFeignClient(String serviceName) {
-       return (DynamicFeignClient)this.feignClientBuilder.forType(DynamicFeignClient.class, serviceName).build();
+       return this.feignClientBuilder.forType(DynamicFeignClient.class, serviceName).build();
     }
 
 }
