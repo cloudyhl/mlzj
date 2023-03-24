@@ -1,0 +1,29 @@
+server:
+  port: 9999
+fdfs:
+  so-timeout: 2000 # 读取时间
+  connect-timeout: 1000 # 连接超时时间
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list: # tracker 服务器地址
+    - 192.168.5.101:22122
+  web-server-url: http://192.168.5.101:8888/ # storage 服务器上nginx的地址
+  pool: # 可参考 ConnectionPoolConfig
+    #从池中借出的对象的最大数目（配置为-1表示不限制）
+    max-total: -1
+    #获取连接时的最大等待毫秒数(默认配置为5秒)
+    max-wait-millis: 5000
+    #每个key最大连接数  key配置的是连接服务端的地址(IP+端口)连接情况，如果有连接不够用的情况可以调整以上参数
+    max-total-per-key: 50
+    #每个key对应的连接池最大空闲连接数
+    max-idle-per-key: 10
+    #每个key对应的连接池最小空闲连接数
+    min-idle-per-key: 5
+    #向调用者输出“连接”资源时，是否检测有效性
+    test-on-borrow: true
+spring:
+  servlet:
+    multipart:
+      max-request-size: 2048MB
+      max-file-size: 2048MB

@@ -6,7 +6,7 @@ package com.mlzj.commontest.demo;
  */
 public class ArrayAggregate<T> implements Aggregate<T>{
 
-    private T [] array;
+    private final T [] array;
 
     private int current = 0;
 
