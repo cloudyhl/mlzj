@@ -20,7 +20,7 @@ public class ObjectTools {
      * @param <T> 泛型
      * @return 目标对象
      */
-    public <T> T getCopyObj(Object obj, Class<T> tClass) throws Exception {
+    public static  <T> T getCopyObj(Object obj, Class<T> tClass) throws Exception {
         T targetObj = tClass.getDeclaredConstructor().newInstance();
         BeanUtils.copyProperties(obj, targetObj);
         return targetObj;
@@ -33,7 +33,7 @@ public class ObjectTools {
      * @param <T> 泛型
      * @return 目标对象
      */
-    public <T> List<T> getCopyObjList(List<?> dataObjs, Class<T> tClass) throws Exception {
+    public static  <T> List<T> getCopyObjList(List<?> dataObjs, Class<T> tClass) throws Exception {
         List<T> resultList = new ArrayList<>();
         for (Object dataObj : dataObjs) {
             T targetObj = tClass.getDeclaredConstructor().newInstance();
@@ -50,8 +50,8 @@ public class ObjectTools {
      * @param <T> 泛型
      * @return 目标对象
      */
-    public <T> List<T> getCopyObjListDoAfter(List<?> dataObjs, Class<T> tClass, Consumer<T> tConsumer) throws Exception {
-        List<T> copyObjList = this.getCopyObjList(dataObjs, tClass);
+    public static  <T> List<T> getCopyObjListDoAfter(List<?> dataObjs, Class<T> tClass, Consumer<T> tConsumer) throws Exception {
+        List<T> copyObjList = getCopyObjList(dataObjs, tClass);
         copyObjList.forEach(tConsumer);
         return copyObjList;
     }

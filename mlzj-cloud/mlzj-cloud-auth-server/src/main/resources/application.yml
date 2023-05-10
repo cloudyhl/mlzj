@@ -8,7 +8,7 @@ spring:
     port: 6379
     database: 0
   datasource:
-    url: jdbc:mysql://localhost:3306/mlzjcloudauth?characterEncoding=utf8&readOnlyPropagatesToServer=false&rewriteBatchedStatements=true&useInformationSchema=false&useSSL=true
+    url: jdbc:mysql://localhost:3306/mlzjcloudauthcharacterEncoding=utf8&readOnlyPropagatesToServer=false&rewriteBatchedStatements=true&useInformationSchema=false&useSSL=false&allowMultiQueries=true
     username: root
     password: root
 mybatis-plus:
