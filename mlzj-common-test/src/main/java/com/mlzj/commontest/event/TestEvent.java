@@ -22,4 +22,7 @@ public class TestEvent extends ApplicationEvent {
         this.eventName = eventName;
         this.eventString = eventString;
     }
+    public TestEvent(Object source) {
+        super(source);
+    }
 }

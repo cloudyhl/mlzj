@@ -7,9 +7,9 @@ fdfs:
     width: 150
     height: 150
   tracker-list: # tracker 服务器地址
-    - 192.168.5.101:22122
-    - 192.168.5.102:22122
-  web-server-url: http://192.168.5.101:8888/ # storage 服务器上nginx的地址
+    - 192.168.45.101:22122
+    #- 192.168.5.102:22122
+  web-server-url: http://192.168.45.101:8888/ # storage 服务器上nginx的地址
   pool: # 可参考 ConnectionPoolConfig
     #从池中借出的对象的最大数目（配置为-1表示不限制）
     max-total: -1

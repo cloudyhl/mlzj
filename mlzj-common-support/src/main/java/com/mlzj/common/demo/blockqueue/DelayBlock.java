@@ -2,10 +2,7 @@ package com.mlzj.common.demo.blockqueue;
 
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 /**
  *DelayQueue中的元素只有当其指定的延迟时间到了，才能够从队列中获取到该元素。DelayQueue是一个没有大小限制的队列
@@ -20,7 +17,7 @@ public class DelayBlock {
         delayQueue.add(new DelayTask<TaskRun>(new TaskRun(2),2000));
         delayQueue.add(new DelayTask<TaskRun>(new TaskRun(3),3000));
         ThreadPool threadPool = new ThreadPool();
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = threadPool.getThreadPoolTaskExecutor();
+        ThreadPoolExecutor threadPoolTaskExecutor = threadPool.getThreadPool();
         DelayTask<TaskRun> take = delayQueue.take();
         FutureTask<TaskRun> taskRunFutureTask = new FutureTask<>(take.getTask());
         threadPoolTaskExecutor.submit(taskRunFutureTask);
