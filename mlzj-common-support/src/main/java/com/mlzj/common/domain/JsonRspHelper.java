@@ -25,8 +25,14 @@ public class JsonRspHelper {
         return new JsonRsp<>(SUCCESS_CODE, SUCCESS_MSG);
     }
 
-    private static <T> JsonRsp<T> fail(){
+    public static <T> JsonRsp<T> fail(){
         return getFailObj();
+    }
+
+    public static <T> JsonRsp<T> fail(T data){
+        JsonRsp<T> failObj = getFailObj();
+        failObj.setData(data);
+        return failObj;
     }
 
     private static <T> JsonRsp<T> getFailObj() {
