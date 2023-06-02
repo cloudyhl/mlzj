@@ -13,6 +13,6 @@ spring:
     name: alibaba-client
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
+      matching-strategy: ant_path_matcher #http://localhost:8881/swagger-ui/index.html
 server:
   port: 8080
