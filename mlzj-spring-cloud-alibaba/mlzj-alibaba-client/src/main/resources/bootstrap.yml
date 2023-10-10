@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  main:
+    allow-circular-references: true
   cloud:
     nacos:
       discovery:
@@ -9,6 +11,13 @@ spring:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
         group: MLZJ
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8989
+        port: 9900
+    #dashboard: 8080 控制台端口
+    #port: 9900 本地启的端口，随机选个不能被占用的，与dashboard进行数据交互，会在应用对应的机器上
+    #启动一个 Http Server，该 Server 会与 Sentinel 控制台做交互, 若被占用,则开始+1一次扫描
   application:
     name: alibaba-client
   mvc:
@@ -16,3 +25,24 @@ spring:
       matching-strategy: ant_path_matcher #http://localhost:8881/swagger-ui/index.html
 server:
   port: 8080
+feign:
+  sentinel:
+    enabled: true
+  httpclient:
+    enabled: true #开启httpClient将原本feign使用的替换掉
+  ## 开启压缩
+  compression:
+    request:
+      enabled: true
+      ## 开启压缩的阈值，单位字节，默认2048，即是2k，这里为了演示效果设置成1字节
+      min-request-size: 1
+      mime-types: text/xml,application/xml,application/json
+    response:
+      enabled: true
+logging:
+  level:
+    # 全局日志级别
+    root: info
+    # 局部包的日志级别, cn.mesmile.system.feign是openFeign接口所在的包名
+    cn.mesmile.system.feign: debug
+

@@ -2,7 +2,7 @@ server:
   port: 9313
 hbase:
   zookeeper:
-    quorum: localhost:2181
+    quorum: 192.168.26.101:2181
 #spring:
 #  datasource:
 #    tomcat:
@@ -10,5 +10,5 @@ hbase:
 spring:
   datasource:
     driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
-    url: jdbc:phoenix:localhost:2181
+    url: jdbc:phoenix:192.168.26.101:2181
     type: com.alibaba.druid.pool.DruidDataSource
